@@ -1,11 +1,14 @@
 include Makefile.parameters
 
+GG_DEPS=greengrass_common  greengrass_ipc_python_sdk  greengrasssdk
+DEPS=
+
 all: publish
 
 build:
 	echo "Zipping..."
 	rm -f package.zip
-	zip -rq package.zip *
+	zip -rq package.zip $(GG_DEPS) $(DEPS) *.py
 
 deploy: build
 	echo "Uploading to Lambda"

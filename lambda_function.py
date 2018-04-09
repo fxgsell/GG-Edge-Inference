@@ -14,6 +14,7 @@ from time import sleep
 
 VERSION = "6"
 THRESHOLD = 0.3
+IOT_TOPIC='inference/demo'
 
 # Configure logger
 logger = logging.getLogger()
@@ -28,17 +29,16 @@ def open_cam_usb(dev):
 cap = open_cam_usb(1)
 
 if not cap.isOpened():
-    GGC.publish(topic='hello/world', payload='Error failed to open camera')
+    GGC.publish(topic=IOT_TOPIC, payload='Error failed to open camera')
     sys.exit("Failed to open camera!")
 else:
-    GGC.publish(topic='hello/world', payload='Initilized camera successfully')
+    GGC.publish(topic=IOT_TOPIC, payload='Initilized camera successfully')
 
-#model_path = '/greengrass-machine-learning/mxnet/squeezenet/'
-model_path = './'
+model_path = '/trained_model/squeezenet/'
 global_model = load_model.ImagenetModel(model_path + 'synset.txt', model_path + 'squeezenet_v1.1')
 
 i = 0
-GGC.publish(topic='hello/world', payload=str("Initilized model"))
+GGC.publish(topic=IOT_TOPIC, payload=str("Initilized model"))
 
 def clean_predictions(predictions):
     validated = []
@@ -54,7 +54,7 @@ while True:
     print(ret)
 
     predictions = global_model.predict_from_image(frame)
-    GGC.publish(topic='hello/world', payload=str(predictions))
+    GGC.publish(topic=IOT_TOPIC, payload=str(predictions))
     sleep(1)
 
 def lambda_handler(event, context):
