@@ -1,20 +1,20 @@
 # This can be found on the AWS IoT Console.
 import io
-import cv2
-import load_model
-import numpy as np
 import sys
 import os
 import logging
 import platform
-import greengrasssdk
-
 from threading import Timer
+from threading import Thread
 from time import sleep
+
+import greengrasssdk
+import cv2
+import load_model
 
 VERSION = "6"
 THRESHOLD = 0.3
-IOT_TOPIC='inference/demo'
+IOT_TOPIC = 'inference/demo'
 
 # Configure logger
 logger = logging.getLogger()
@@ -34,29 +34,54 @@ if not cap.isOpened():
 else:
     GGC.publish(topic=IOT_TOPIC, payload='Initilized camera successfully')
 
-model_path = '/trained_model/squeezenet/'
-global_model = load_model.ImagenetModel(model_path + 'synset.txt', model_path + 'squeezenet_v1.1')
+ret, frame = cap.read()
+ret, jpeg = cv2.imencode('.jpg', frame)
+Write_To_FIFO = True
+class FIFO_Thread(Thread):
+    def __init__(self):
+        ''' Constructor. '''
+        Thread.__init__(self)
 
-i = 0
-GGC.publish(topic=IOT_TOPIC, payload=str("Initilized model"))
+    def run(self):
+        fifo_path = "/tmp/results.mjpeg"
+        if not os.path.exists(fifo_path):
+            os.mkfifo(fifo_path)
+        f = open(fifo_path, 'w')
+        GGC.publish(topic=IOT_TOPIC, payload="Opened Pipe")
+        while Write_To_FIFO:
+            try:
+                f.write(jpeg.tobytes())
+            except IOError as e:
+                continue
 
-def clean_predictions(predictions):
-    validated = []
+def inf_loop():
+    try:
+        model_path = '/trained_model/squeezenet/'
+        global_model = load_model.ImagenetModel(model_path + 'synset.txt', model_path + 'squeezenet_v1.1')
+        GGC.publish(topic=IOT_TOPIC, payload=str("Initilized model"))
+        results_thread = FIFO_Thread()
+        results_thread.start()
+        while True:
+            # Get the last frame
+            ret, frame = cap.read()
 
-    for k, v in predictions:
-        if k > THRESHOLD:
-            validated.append({'Object': v, 'Percentage': k})
-    return validated
+            # Send fram to model
+            predictions = global_model.predict_from_image(frame)
 
-last_prediction = ""
-while True:
-    ret, frame = cap.read()
-    print(ret)
+            # Send predictions to IOT
+            #GGC.publish(topic=IOT_TOPIC, payload=str(predictions))
 
-    predictions = global_model.predict_from_image(frame)
-    GGC.publish(topic=IOT_TOPIC, payload=str(predictions))
-    sleep(1)
+            # Update the output for mplayer
+            global jpeg
+            ret, jpeg = cv2.imencode('.jpg', frame)
+
+    except Exception as e:
+        msg = "Test failed: " + str(e)
+        GGC.publish(topic=IOT_TOPIC, payload=msg)
+
+    Timer(15, inf_loop).start()
+
+inf_loop()
 
 def lambda_handler(event, context):
     return
-
