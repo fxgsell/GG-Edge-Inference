@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>Jetson TX2 Configuration Utility</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse ">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Jetson TX2 Configuration Utility</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container" >
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Wifi Configuration</h3>
+            </div>
+            <div class="panel-body">
+                <form  action="/configure-wifi" method="post">
+                    <div class="form-group">
+                        <label for="networkName">Wireless Network SSID</label>
+                        <input name="networkName" type="text" class="form-control" id="networkName" placeHolder="Wireless Network SSID">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input name="networkPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Certificates Upload</h3>
+            </div>
+            <div class="panel-body">
+                <form action="/configure-certificates" method="post" enctype=multipart/form-data>
+                    <div class="form-group">
+                            <input type="file" class="form-control" name="certificates" id="certificates" placeholder="Certificates">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger pull-right">Finished</button>
+        </div>
+    </body>
+</html>

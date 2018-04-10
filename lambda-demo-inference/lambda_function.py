@@ -22,6 +22,9 @@ logger.setLevel(logging.INFO)
 
 GGC = greengrasssdk.client('iot-data')
 PLATFORM = platform.platform()
+MODEL_PATH = '/trained_model/squeezenet/'
+SYNSET_PATH = MODEL_PATH + 'synset.txt'
+NETWORK_PATH = MODEL_PATH + 'squeezenet_v1.1'
 
 def open_cam_usb(dev):
     return cv2.VideoCapture(dev)
@@ -56,8 +59,7 @@ class FIFO_Thread(Thread):
 
 def inf_loop():
     try:
-        model_path = '/trained_model/squeezenet/'
-        global_model = load_model.ImagenetModel(model_path + 'synset.txt', model_path + 'squeezenet_v1.1')
+        global_model = load_model.ImagenetModel(SYNSET_PATH, NETWORK_PATH)
         GGC.publish(topic=IOT_TOPIC, payload=str("Initilized model"))
         results_thread = FIFO_Thread()
         results_thread.start()

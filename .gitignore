@@ -1,5 +1,6 @@
 # Packaged lambda function
 package.zip
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
