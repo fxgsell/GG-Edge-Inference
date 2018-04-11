@@ -71,17 +71,19 @@ def inf_loop():
             predictions = global_model.predict_from_image(frame)
 
             # Send predictions to IOT
-            #GGC.publish(topic=IOT_TOPIC, payload=str(predictions))
+            GGC.publish(topic=IOT_TOPIC, payload=str(predictions))
 
             # Update the output for mplayer
             global jpeg
             ret, jpeg = cv2.imencode('.jpg', frame)
 
+            time.sleep(1)
+
     except Exception as e:
         msg = "Test failed: " + str(e)
         GGC.publish(topic=IOT_TOPIC, payload=msg)
 
-    Timer(15, inf_loop).start()
+    Timer(1, inf_loop).start()
 
 inf_loop()
 
