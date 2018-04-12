@@ -1,0 +1,8 @@
+REGION=us-east-1
+PROFILE=default
+GG_GROUP=Koala
+LAMBDA_ALIAS=latest
+LAMBDA_FUNCTION=gg-inference-resnet50-512
+AWS_COMMAND=aws --profile $(PROFILE) --region $(REGION)
+
+

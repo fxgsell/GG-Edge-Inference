@@ -18,6 +18,12 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 def root():
     return app.send_static_file('index.html')
 
+@app.route('/finished', methods=['GET'])
+def close():
+    if True:
+        raise RuntimeError("Server going down")
+    return app.send_static_file('index.html')
+
 @app.route('/configure-wifi', methods=['POST'])
 def handle_wifi():
     print(request)
@@ -49,8 +55,12 @@ def handle_certificates():
     if file and allowed_file(file.filename):
         #filename = secure_filename(file.filename)
         filename = 'certificates.zip'
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename ))
     return app.send_static_file('index.html')
 
 if __name__ == "__main__":
-    app.run()
+    try:
+        app.run(host= '0.0.0.0', port=5000)
+    except RuntimeError, msg:
+        if str(msg) == "Server going down":
+            pass # or whatever you want to do when the server goes down

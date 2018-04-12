@@ -15,13 +15,14 @@ def update():
 
 def reset():
   global diff_up
-  if diff_up >= 10:
-    print("WIN")
+  if diff_up >= 4: # 2 press
+    #os.system("scripts/setup_wifi_ap.py")
+    os.system("python server.py")
+    #os.system("scripts/reset_wifi.py")
   diff_up = 0
 
 while 42:
-    print("UPDATE:", up)
-    time.sleep(1)
-    u = up
-    update()
-    diff_up = diff_up + up - u
+  time.sleep(1)
+  u = up
+  update()
+  diff_up = diff_up + up - u
