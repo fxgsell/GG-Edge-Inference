@@ -6,18 +6,14 @@ import cv2
 from threading import Thread
 import base64
 import load_model
-import logging
+import sys
 
 # Creating a greengrass core sdk client
 GGC = greengrasssdk.client('iot-data')
 IOT_TOPIC = 'inference/resnet'
 MODEL_PATH = '/trained_model/ssd_resnet50_512/'
 NETWORK_PATH = MODEL_PATH + 'ssd_resnet50_512'
-
-# Configure logger
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
+SYNSET_PATH = MODEL_PATH + 'synset.txt'
 
 def open_cam_usb(dev):
     return cv2.VideoCapture(dev)
@@ -29,7 +25,7 @@ if not cap.isOpened():
     sys.exit("Failed to open camera!")
 else:
     GGC.publish(topic=IOT_TOPIC, payload='Initilized camera successfully')
-    
+
 ret, frame = cap.read()
 ret, jpeg = cv2.imencode('.jpg', frame)
 Write_To_FIFO = True
@@ -53,66 +49,29 @@ class FIFO_Thread(Thread):
 
 def inf_loop():
     try:
-        global_model = load_model.ImagenetModel(NETWORK_PATH)
-        modelType = "ssd"
-        input_width = 300
-        input_height = 300
-        prob_thresh = 0.25
-        results_thread = FIFO_Thread()
-        results_thread.start()
+        global_model = load_model.ImagenetModel(SYNSET_PATH, NETWORK_PATH)
+        GGC.publish(topic=IOT_TOPIC, payload=str("Initilized model"))
+        #results_thread = FIFO_Thread()
+        #results_thread.start()
+        try:
+            while True:
+                ret, frame = cap.read()
+                predictions = global_model.predict_from_image(frame)
+                GGC.publish(topic=IOT_TOPIC, payload=str(predictions))
+                #global jpeg
+                #ret, jpeg = cv2.imencode('.jpg', frame)
+                time.sleep(1)
 
-        # Send a starting message to IoT console
-        GGC.publish(topic=IOT_TOPIC, payload="Face detection starts now")
-
-        ret, frame = cap.getLastFrame()
-        if ret == False:
-            raise Exception("Failed to get frame from the stream")
-
-        yscale = float(frame.shape[0]/input_height)
-        xscale = float(frame.shape[1]/input_width)
-
-        doInfer = True
-        while doInfer:
-            # Get a frame from the video stream
-            ret, frame = cap.read()
-            # Raise an exception if failing to get a frame
-            if ret == False:
-                raise Exception("Failed to get frame from the stream")
-
-
-            # Resize frame to fit model input requirement
-            frameResize = cv2.resize(frame, (input_width, input_height))
-
-            # Run model inference on the resized frame
-            inferOutput = model.doInference(frameResize)
-
-            # Output inference result to the fifo file so it can be viewed with mplayer
-            parsed_results = model.parseResult(modelType, inferOutput)['ssd']
-            label = '{'
-            for obj in parsed_results:
-                if obj['prob'] < prob_thresh:
-                    break
-                xmin = int( xscale * obj['xmin'] ) + int((obj['xmin'] - input_width/2) + input_width/2)
-                ymin = int( yscale * obj['ymin'] )
-                xmax = int( xscale * obj['xmax'] ) + int((obj['xmax'] - input_width/2) + input_width/2)
-                ymax = int( yscale * obj['ymax'] )
-
-
-                cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), (255, 165, 20), 4)
-                label += '"{}": {:.2f},'.format(str(obj['label']), obj['prob'] )
-                label_show = '{}: {:.2f}'.format(str(obj['label']), obj['prob'] )
-                cv2.putText(frame, label_show, (xmin, ymin-15),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 165, 20), 4)
-            label += '"null": 0.0'
-            label += '}'
-            #GGC.publish(topic=IOT_TOPIC, payload = label)
-            global jpeg
-            ret,jpeg = cv2.imencode('.jpg', frame)
+        except Exception as e:
+            msg = "Inference error: " + str(e)
+            GGC.publish(topic=IOT_TOPIC, payload=msg)
 
     except Exception as e:
-        msg = "Test failed: " + str(e)
+        msg = "Model loading error bis: " + str(e)
         GGC.publish(topic=IOT_TOPIC, payload=msg)
+   
 
-    Timer(1, inf_loop).start()
+    Timer(15, inf_loop).start()
 
 inf_loop()
 # This is a dummy handler and will not be invoked

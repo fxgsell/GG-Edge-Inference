@@ -1,7 +1,7 @@
 include Makefile.parameters
 
 GG_DEPS=greengrass_common  greengrass_ipc_python_sdk  greengrasssdk
-DEPS=
+DEPS=symbol
 
 all: publish
 

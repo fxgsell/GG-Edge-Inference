@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$BINARIES=/opt/jetson-gg-config-tool/binaries/
+BINARIES=/opt/jetson-gg-config-tool/binaries/
 
 cp uploads/configuration.tar.gz /tmp/configuration.tar.gz
 
@@ -13,9 +13,10 @@ cp uploads/configuration.tar.gz /tmp/configuration.tar.gz
 
 systemctl stop greengrass
 
-rm -rf /greengrass/
-tar -xzvf $BINARIES/greengrass-OS-aarch64-1.5.0.tar.gz -C /
+rm -rf /greengrass
+tar -xzvf $BINARIES/greengrass-linux-aarch64-1.5.0.tar.gz -C /
 tar -xzvf uploads/configuration.tar.gz -C /greengrass
 cp $BINARIES/root.ca.pem /greengrass/certs/root.ca.pem
 
 systemctl start greengrass
+systemctl status greengrass

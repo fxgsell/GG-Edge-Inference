@@ -12,7 +12,7 @@ Batch = namedtuple('Batch', ['data'])
 class ImagenetModel(object):
     #Loads a pre-trained model locally 
     #and returns an MXNet graph that is ready for prediction
-    def __init__(self, synset_path, network_prefix, context=mx.gpu(),
+    def __init__(self, synset_path, network_prefix, context=mx.cpu(),
                  label_names=['prob_label'], input_shapes=[('data', (1, 3, 224, 224))]):
 
         # Load the symbols for the networks
@@ -38,7 +38,7 @@ class ImagenetModel(object):
         # Resize image to fit network input
         img = cv2.resize(img, reshape)
         img = np.swapaxes(img, 0, 2)
-        img = np.swapaxes(img, 1, 2)
+        img = np.swapaxes(img, 1, 2) 
         img = img[np.newaxis, :]
 
         # Run forward on the image

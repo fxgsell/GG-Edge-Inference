@@ -16,4 +16,3 @@ mplayer –demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/ssd_results.mj
 ### Remote mplayer
 
 ssh benny cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32 
-
