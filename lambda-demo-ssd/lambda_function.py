@@ -17,7 +17,8 @@ Batch = namedtuple('Batch', ['data'])
 
 VERSION = "7"
 THRESHOLD = 0.6
-IOT_TOPIC = 'hello/world'
+IOT_TOPIC = 'j3/inference'
+IOT_TOPIC_ADMIN = 'j3/admin'
 DATA_SHAPE = 512
 
 GGC = greengrasssdk.client('iot-data')
@@ -25,7 +26,10 @@ PLATFORM = platform.platform()
 
 FILE_OUTPUT = True
 
-GGC.publish(topic=IOT_TOPIC, payload='Loading new Thread: '+PLATFORM)
+GGC.publish(topic=IOT_TOPIC_ADMIN, payload='Loading new Thread.')
+GGC.publish(topic=IOT_TOPIC_ADMIN, payload='Platfom: '+PLATFORM)
+GGC.publish(topic=IOT_TOPIC_ADMIN, payload='MXNet: '+mx.__version__)
+GGC.publish(topic=IOT_TOPIC_ADMIN, payload='CV: '+cv2.__version__)
 
 def random_color():
     rgbl=[255,0,0]
@@ -85,11 +89,12 @@ class FIFO_Thread(Thread):
         if not os.path.exists(fifo_path):
             os.mkfifo(fifo_path)
         f = open(fifo_path, 'w')
-        GGC.publish(topic=IOT_TOPIC, payload="Opened Output Pipe")
+        GGC.publish(topic=IOT_TOPIC_ADMIN, payload="Opened Output Pipe")
         while Write_To_FIFO:
             try:
                 f.write(jpeg.tobytes())
             except IOError as e:
+                print(e)
                 continue
 
 def draw_box(frame, corners, color, label, proba):
@@ -186,7 +191,7 @@ def loop():
     except Exception as e:
         msg = "Test failed: " + str(e)
         print(msg)
-        GGC.publish(topic=IOT_TOPIC, payload=msg)
+        GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
 
     Timer(15, loop).start()
 
