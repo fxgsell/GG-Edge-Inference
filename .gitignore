@@ -107,3 +107,11 @@ ENV/
 
 # Others
 .DS_Store
+
+
+# greengrass config
+greengrass-configuration/*.private.key
+greengrass-configuration/*.cert.pem
+greengrass-configuration/*.public.key
+greengrass-configuration/configuration.zip
+greengrass-configuration/config.json

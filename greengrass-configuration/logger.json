@@ -1,0 +1,30 @@
+{
+    "Loggers": [
+        {
+          "Component": "Lambda",
+          "Id": "local-lambda",
+          "Level": "INFO",
+          "Space": 25,
+          "Type": "FileSystem"
+        },
+        {
+          "Component": "GreengrassSystem",
+          "Id": "local-system",
+          "Level": "INFO",
+          "Space": 25,
+          "Type": "FileSystem"
+        },
+        {
+          "Component": "Lambda",
+          "Id": "cloudwatch-lambda",
+          "Level": "INFO",
+          "Type": "AWSCloudWatch"
+        },
+        {
+          "Component": "GreengrassSystem",
+          "Id": "cloudwatch-system",
+          "Level": "INFO",
+          "Type": "AWSCloudWatch"
+        }
+    ]
+  }

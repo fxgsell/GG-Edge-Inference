@@ -1,0 +1,119 @@
+{
+    "Name": "NvidiaJetsonTX2",
+    "InitialVersion": {
+        "Resources": [
+            {
+                "Id": "shm",
+                "Name": "data-volume-shm",
+                "ResourceDataContainer": {
+                    "LocalVolumeResourceData": {
+                        "SourcePath": "/dev/shm",
+                        "DestinationPath": "/dev/shm",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            },
+            {
+                "Id": "data-volume-tmp",
+                "Name": "tmp",
+                "ResourceDataContainer": {
+                    "LocalVolumeResourceData": {
+                        "SourcePath": "/dev/tmp",
+                        "DestinationPath": "/dev/tmp",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            },
+            {
+                "Id": "data-device-nvhost-gpu",
+                "Name": "nvhost-gpu",
+                "ResourceDataContainer": {
+                    "LocalDeviceResourceData": {
+                        "SourcePath": "/dev/nvhost-gpu",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            },
+            {
+                "Id": "data-device-nvhost-ctrl",
+                "Name": "nvhost-ctrl",
+                "ResourceDataContainer": {
+                    "LocalDeviceResourceData": {
+                        "SourcePath": "/dev/nvhost-ctrl",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            },
+            {
+                "Id": "data-device-nvhost-dbg-gpu",
+                "Name": "nvhost-dbg-gpu",
+                "ResourceDataContainer": {
+                    "LocalDeviceResourceData": {
+                        "SourcePath": "/dev/nvhost-dbg-gpu",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            },
+            {
+                "Id": "data-device-nvhost-ctrl-gpu",
+                "Name": "nvhost-ctrl-gpu",
+                "ResourceDataContainer": {
+                    "LocalDeviceResourceData": {
+                        "SourcePath": "/dev/nvhost-ctrl-gpu",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            },
+            {
+                "Id": "data-device-nvhost-prof-gpu",
+                "Name": "nvhost-prof-gpu",
+                "ResourceDataContainer": {
+                    "LocalDeviceResourceData": {
+                        "SourcePath": "/dev/nvhost-prof-gpu",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            },
+            {
+                "Id": "data-device-nvhost-vic",
+                "Name": "nvhost-vic",
+                "ResourceDataContainer": {
+                    "LocalDeviceResourceData": {
+                        "SourcePath": "/dev/nvhost-vic",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            },
+            {
+                "Id": "data-device-nvmap",
+                "Name": "nvmap",
+                "ResourceDataContainer": {
+                    "LocalDeviceResourceData": {
+                        "SourcePath": "/dev/nvmap",
+                        "GroupOwnerSetting": {
+                            "AutoAddGroupOwner": true
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
+
+

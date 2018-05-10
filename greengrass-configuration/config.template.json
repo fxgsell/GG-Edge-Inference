@@ -1,0 +1,17 @@
+{
+    "coreThing" : {
+      "caPath" : "root.ca.pem",
+      "certPath" : "__CERT__",
+      "keyPath" : "__KEY__",
+      "thingArn" : "__THING_ARN__",
+      "iotHost" : "aq7sp3lvaf0b7.iot.us-east-1.amazonaws.com",
+      "ggHost" : "greengrass.iot.us-east-1.amazonaws.com",
+      "keepAlive" : 600
+    },
+    "runtime" : {
+      "cgroup" : {
+        "useSystemd" : "yes"
+      }
+    },
+    "managedRespawn" : false
+  }
