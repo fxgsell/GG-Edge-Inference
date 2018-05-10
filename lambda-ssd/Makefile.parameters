@@ -1,0 +1,8 @@
+REGION=us-east-1
+PROFILE=default
+GG_GROUP=Jetson-3
+LAMBDA_ALIAS=latest
+LAMBDA_FUNCTION=demo-inference
+AWS_COMMAND=aws --profile $(PROFILE) --region $(REGION)
+
+

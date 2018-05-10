@@ -55,8 +55,7 @@ def inf_loop():
         msg = "Model loading error bis: " + str(e)
         print(msg)
    
-    Write_To_FIFO = False
-    #Timer(15, inf_loop).start()
+    Timer(15, inf_loop).start()
 
 inf_loop()
 # This is a dummy handler and will not be invoked
