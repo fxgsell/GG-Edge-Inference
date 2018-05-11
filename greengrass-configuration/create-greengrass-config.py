@@ -4,6 +4,7 @@ import static_config
 import json
 import argparse
 import os
+import shutil
 
 greengrass = boto3.client('greengrass')
 iot = boto3.client('iot')
@@ -32,6 +33,33 @@ def remove_assets():
         f.close()
         os.remove('./state.json') 
 
+def generate_config_package(state):
+    package_id = '123456' #TODO
+
+    config = static_config.CONFIG_FILE
+    config["coreThing"]["certPath"] = 'certs/'+package_id+'.cert.pem'
+    config["coreThing"]["keyPath"] = 'certs/'+package_id+'.private.key'
+    config["coreThing"]["thingArn"] = state['core_thing']['thingArn']
+    
+    os.mkdir('./artifacts')
+    os.mkdir('./artifacts/certs')
+    os.mkdir('./artifacts/config')
+
+    with open('./artifacts/config/config.json', 'w') as f:
+        json.dump(config, f, indent=4)
+
+    with open('./artifacts/'+config["coreThing"]["certPath"], 'w') as f:
+        f.write(state['keys_cert']['certificatePem'])
+
+    with open('./artifacts/'+config["coreThing"]["keyPath"], 'w') as f:
+        f.write(state['keys_cert']['keyPair']['PrivateKey'])
+
+    with open('./artifacts/certs/'+package_id+'.public.key', 'w') as f:
+        f.write(state['keys_cert']['keyPair']['PublicKey'])
+
+    shutil.make_archive('certificates', 'zip', './artifacts/')
+    shutil.rmtree( './artifacts' )
+    return
 
 def create_group(group_name):
     thing_name = group_name+'_Core'
@@ -91,7 +119,9 @@ def create_group(group_name):
         'core_definition': core,
         'policy': policy
     }
-        
+
+    generate_config_package(state)
+
     with open('./state.json', 'w') as f:
         json.dump(state, f, indent=4)
 
