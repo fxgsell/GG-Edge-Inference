@@ -115,3 +115,4 @@ greengrass-configuration/*.cert.pem
 greengrass-configuration/*.public.key
 greengrass-configuration/configuration.zip
 greengrass-configuration/config.json
+greengrass-configuration/state.json
