@@ -40,7 +40,10 @@ def generate_config_package(state):
     config["coreThing"]["certPath"] = 'certs/'+package_id+'.cert.pem'
     config["coreThing"]["keyPath"] = 'certs/'+package_id+'.private.key'
     config["coreThing"]["thingArn"] = state['core_thing']['thingArn']
-    
+
+    shutil.rmtree( './artifacts', True)
+    os.remove( 'certificates.zip')
+
     os.mkdir('./artifacts')
     os.mkdir('./artifacts/certs')
     os.mkdir('./artifacts/config')
@@ -57,8 +60,8 @@ def generate_config_package(state):
     with open('./artifacts/certs/'+package_id+'.public.key', 'w') as f:
         f.write(state['keys_cert']['keyPair']['PublicKey'])
 
-    shutil.make_archive('certificates', 'zip', './artifacts/')
-    shutil.rmtree( './artifacts' )
+    shutil.make_archive('certificates', 'zip', './artifacts/', '.')
+    shutil.rmtree( './artifacts')
     return
 
 def create_group(group_name):
@@ -120,10 +123,11 @@ def create_group(group_name):
         'policy': policy
     }
 
-    generate_config_package(state)
 
     with open('./state.json', 'w') as f:
         json.dump(state, f, indent=4)
+
+    generate_config_package(state)
 
  #################
 ### ENTRY POINT ###
