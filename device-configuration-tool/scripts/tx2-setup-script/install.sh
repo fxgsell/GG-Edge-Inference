@@ -4,9 +4,7 @@
 
 #TODO: 
 # Pre-build OpenCV
-# Test without CUDA9 Installed
 # Copy in S3 all external links
-# Test with CUDA9/MXNet 1.x
 
 # Prerequisits 
 sudo apt update
@@ -19,6 +17,8 @@ sudo echo '' | sudo tee -a /etc/network/interfaces
 sudo echo 'auto eth0' | sudo tee -a /etc/network/interfaces
 sudo echo 'iface eth0 inet dhcp' | sudo tee -a /etc/network/interfaces
 
+sudo systemctl enable networking
+
 sudo adduser --system ggc_user
 sudo addgroup --system ggc_group
 
@@ -27,22 +27,11 @@ cd aws-greengrass-samples
 cd greengrass-dependency-checker-GGCv1.5.0
 sudo ./check_ggc_dependencies
 
-# Cuda 8
-sudo apt -y autoremove cuda-toolkit-9-0
-sudo rm -f /etc/apt/sources.list.d/cuda-9-0-local.list
-sudo rm -f /etc/apt/sources.list.d/nv-tensorrt-ga-cuda9.0-trt3.0.4-20180208.list
-wget http://developer.download.nvidia.com/devzone/devcenter/mobile/jetpack_l4t/006/linux-x64/cuda-repo-l4t-8-0-local_8.0.34-1_arm64.deb
-sudo dpkg -i cuda-repo-l4t-8-0-local_8.0.34-1_arm64.deb
-sudo apt update
-sudo apt -y install cuda-toolkit-8-0
-sudo ln -s /usr/lib/aarch64-linux-gnu/libcudnn.so.7 /usr/lib/aarch64-linux-gnu/libcudnn.so.6
-
 # MXNet 
-mkdir mxnet
-cd mxnet
-wget https://s3.amazonaws.com/fx-greengrass-models/binaries/ggc-mxnet-v0.11.0-python-nvidia-tx2.tar.gz
-tar -xvf ggc-mxnet-v0.11.0-python-nvidia-tx2.tar.gz
-sudo sh mxnet_installer.sh
+wget https://s3.amazonaws.com/fx-greengrass-models/binaries/mxnet-1.2.0-py2.py3-none-any.whl
+sudo su
+    pip install -e ./mxnet-1.2.0-py2.py3-none-any.whl
+    exit
 
 # Greengrass service
 
@@ -71,6 +60,3 @@ cd buildOpenCVTX2/
 cd $HOME/opencv/build
 make
 sudo make install
-
-
-# TODO: install greengrass and certificates
