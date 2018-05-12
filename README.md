@@ -2,17 +2,16 @@
 
 Using AWS Greengrass with the Nvidia Jetson TX1 to run ML models prepared with Amazon SageMaker.
 
-
-# Tips
-
-### View Camera
-
-gst-launch-1.0 nvcamerasrc sensor-id=0 ! 'video/x-raw(memory:NVMM),width=1920, height=1080, framerate=30/1, format=NV12' ! nvoverlaysink -ev
+## Tips
 
 ### mplayer to view the lambda's output
 
-mplayer –demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/ssd_results.mjpeg
+`mplayer –demuxer lavf -lavfdopts format=mjpeg:probesize=32 /tmp/ssd_results.mjpeg`
 
-### Remote mplayer
+### mplayer from remote computer to view the lambda's output
 
-ssh benny cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32 
+`ssh DEVICE cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32`
+
+### mplayer on framebuffer to view the lambda's output
+
+`ssh DEVICE DISPLAY=0:0 mplayer /tmp/results.mjpeg -vo fbdev -demuxer lavf -lavfdopts format=mjpeg:probesize=32 -fs -zoom -xy 1280`

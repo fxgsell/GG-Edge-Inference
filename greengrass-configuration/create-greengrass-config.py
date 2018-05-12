@@ -168,8 +168,6 @@ def create_group(group_name, bucket):
         RoleArn=role['Role']['Arn']
     )
 
-    #TODO For logstash and ML: No role has been attached to the WORKSHOP_JETSON Group
-
     state = {
         'role': role,
         'role_policy': role_policy,
