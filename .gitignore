@@ -113,6 +113,6 @@ ENV/
 greengrass-configuration/*.private.key
 greengrass-configuration/*.cert.pem
 greengrass-configuration/*.public.key
-greengrass-configuration/configuration.zip
+greengrass-configuration/certificates.tar.gz
 greengrass-configuration/config.json
 greengrass-configuration/state.json

@@ -51,9 +51,10 @@ def generate_config_package(state):
     package_id = state['keys_cert']['certificateArn'][-10:]
 
     config = static_config.CONFIG_FILE
-    config["coreThing"]["certPath"] = 'certs/'+package_id+'.cert.pem'
-    config["coreThing"]["keyPath"] = 'certs/'+package_id+'.private.key'
+    config["coreThing"]["certPath"] = package_id+'.cert.pem'
+    config["coreThing"]["keyPath"] = package_id+'.private.key'
     config["coreThing"]["thingArn"] = state['core_thing']['thingArn']
+    config["coreThing"]["iotHost"] = iot.describe_endpoint()['endpointAddress']
 
     shutil.rmtree( './artifacts', True)
     if os.path.isfile('certificates.zip'):
@@ -79,7 +80,7 @@ def generate_config_package(state):
         f.write(state['keys_cert']['keyPair']['PublicKey'])
         f.close()
 
-    shutil.make_archive('certificates', 'zip', './artifacts/', '.')
+    shutil.make_archive('certificates', 'gztar', './artifacts/', '.')
     shutil.rmtree( './artifacts')
     print('Configuration and certificates generated: certificates.zip')
 
@@ -189,6 +190,17 @@ def create_group(group_name, bucket):
     generate_config_package(state)
     print("Resources created, install the package on your device.")
 
+def get_connectivity():
+    with open('./state.json', 'r') as f:
+        state = json.load(f)
+        response = greengrass.get_connectivity_info(ThingName=state['core_thing']['thingName'])
+        response.pop('ResponseMetadata', None)
+        for val in response['ConnectivityInfo']:
+            ip = val['HostAddress']
+            if ":" not in ip and ip != '127.0.0.1':
+                print(val['HostAddress'])
+            
+
 ### ENTRY POINT ###
 
 parser = argparse.ArgumentParser(description='Process some integers.')
@@ -201,11 +213,16 @@ parser.add_argument('--bucket', dest='bucket', action='store',
 parser.add_argument('--delete-group', dest='delete_group', action='store_true',
                    default=False, 
                    help='Delete resources in state file')
+parser.add_argument('--ip-address', dest='ip_address', action='store_true',
+                   default=False, 
+                   help='Get greengrass core ip address')
 
 args = parser.parse_args()
 
 if args.delete_group:
     remove_assets()
+elif args.ip_address:
+    get_connectivity()
 elif args.group_name != "" and args.bucket == "":
     print("Please specify a bucket with --bucket BUCKET_NAME")
 elif args.group_name != "":
