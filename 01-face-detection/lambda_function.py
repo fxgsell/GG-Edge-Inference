@@ -10,6 +10,7 @@ import random
 import cv2
 import json
 import numpy as np
+import sys
 
 Batch = namedtuple('Batch', ['data'])
 
@@ -32,14 +33,16 @@ class FileVideoStream:
                         "video/x-raw(memory:NVMM), width=(int)2592, height=(int)1458, format=(string)I420, framerate=(fraction)30/1 ! "
                         "nvvidconv ! video/x-raw, width=(int){}, height=(int){}, format=(string)BGRx ! "
                         "videoconvert ! appsink").format(width, height)
-            #return cv2.VideoCapture(gst_str, cv2.CAP_GSTREAMER)
-            return cv2.VideoCapture(device)
+            return cv2.VideoCapture(gst_str, cv2.CAP_GSTREAMER)
 
         self.stream = open_cam_onboard(640, 480)
+
+        
         self.stopped = False
 
         if not self.stream.isOpened():
-            print("Failed to open camera!")
+            GGC.publish(topic=IOT_TOPIC_ADMIN, payload="Failed to open camera!")
+            sys.exit("Failed to open camera!")
         else:
             print("Cam is opened")
 
@@ -86,11 +89,13 @@ class FIFO_Thread(Thread):
             try:
                 f.write(jpeg.tobytes())
             except IOError as e:
+                GGC.publish(topic=IOT_TOPIC_ADMIN, payload=e)
                 continue
 
 # Create arrays of known face encodings and their names
 known_face_encodings = []
 known_face_names = []
+seen = 0
 
 # Initialize some variables
 face_locations = []
@@ -108,12 +113,10 @@ GGC.publish(topic=IOT_TOPIC_ADMIN, payload='CV: '+cv2.__version__)
 
 def is_known(face):
     tolerance = 0.6
+    norm = np.empty((0))
     try:
-        if len(face_encodings) == 0:
-            norm = np.empty((0))
-        else:
+        if len(known_face_encodings) > 0:
             norm = np.linalg.norm(known_face_encodings - face, axis=1)
-
     except Exception as e:
         msg = "Matching faces: " + str(e)
         GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
@@ -145,16 +148,20 @@ def loop():
             for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
                 # See if the face is a match for the known face(s)
                 matches = is_known(face_encoding)
-                name = "New"+str(len(known_face_names))
+                name = ""
 
                 # If a match was found in known_face_encodings, just use the first one.
                 if True in matches:
                     first_match_index = matches.index(True)
                     name = known_face_names[first_match_index]
                 else:
-                    if len(known_face_encodings) >= 3:
+                    if len(known_face_encodings) >= 6:
                         known_face_encodings.pop(0)
-                        known_face_names.pop(0)
+                        known_face_names.pop(0) 
+                    
+                    global seen
+                    name = "User"+str(seen)
+                    seen = seen + 1
 
                     known_face_encodings.append(face_encoding)
                     known_face_names.append(name)

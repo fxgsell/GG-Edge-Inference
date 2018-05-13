@@ -1,13 +1,12 @@
-include Makefile.parameters
+include ../Makefile.parameters
 
 GG_DEPS=greengrass_common  greengrass_ipc_python_sdk  greengrasssdk
-DEPS=symbol
+DEPS=
 
 all: publish
 
 build:
 	echo "Zipping..."
-	#pylint *.py
 	rm -f package.zip
 	zip -rq package.zip $(GG_DEPS) $(DEPS) *.py
 

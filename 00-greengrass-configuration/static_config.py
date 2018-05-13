@@ -231,8 +231,8 @@ RESOURCE_INITIAL_VERSION = {
             "Name": "tmp",
             "ResourceDataContainer": {
                 "LocalVolumeResourceData": {
-                    "SourcePath": "/dev/tmp",
-                    "DestinationPath": "/dev/tmp",
+                    "SourcePath": "/tmp",
+                    "DestinationPath": "/tmp",
                     "GroupOwnerSetting": {
                         "AutoAddGroupOwner": True
                     }

@@ -21,10 +21,16 @@ def remove_assets():
     with open('./state.json', 'r') as f:
         state = json.load(f)
 
+        greengrass.reset_deployments(Force=True, GroupId=state['group']['Id'])
         greengrass.delete_group(GroupId=state['group']['Id'])
         greengrass.delete_logger_definition(LoggerDefinitionId=state['logger']['Id'])
         greengrass.delete_core_definition(CoreDefinitionId=state['core_definition']['Id'])
         greengrass.delete_resource_definition(ResourceDefinitionId=state['resource']['Id'])
+
+        if 'function' in state:
+            greengrass.delete_function_definition(FunctionDefinitionId=state['function']['Id'])
+        if 'subscription' in state:
+            greengrass.delete_subscription_definition(SubscriptionDefinitionId=state['subscription']['Id'])
 
         iot.detach_thing_principal(thingName=state['core_thing']['thingName'],
             principal=state['keys_cert']['certificateArn'])
@@ -68,11 +74,11 @@ def generate_config_package(state):
         json.dump(config, f, indent=4)
         f.close()
 
-    with open('./artifacts/'+config["coreThing"]["certPath"], 'w') as f:
+    with open('./artifacts/certs/'+config["coreThing"]["certPath"], 'w') as f:
         f.write(state['keys_cert']['certificatePem'])
         f.close()
 
-    with open('./artifacts/'+config["coreThing"]["keyPath"], 'w') as f:
+    with open('./artifacts/certs/'+config["coreThing"]["keyPath"], 'w') as f:
         f.write(state['keys_cert']['keyPair']['PrivateKey'])
         f.close()
 
@@ -266,6 +272,7 @@ if args.function_name != "":
         with open('./state.json', 'w') as f:
             json.dump(state, f, indent=4, default = dateconverter)
             f.close()
+        ## TODO: Generate Makefile.parameters
     else:
         print("Cannot find state.json file")
     print("Resources created, install the package on your device.")
