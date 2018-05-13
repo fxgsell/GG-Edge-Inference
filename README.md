@@ -26,6 +26,10 @@ You're now set to start doing some ML @Edge.
 
 1. Edit Makefile.parameters with your values.
 
+1. Run `make publish`
+
+1. After the deployment is done you can view the output with: `ssh DEVICE-IP cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32`
+
 ## Tips
 
 ### mplayer from remote computer to view the lambda's output
