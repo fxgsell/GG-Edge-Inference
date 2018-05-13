@@ -180,13 +180,40 @@ def create_group(group_name, bucket):
         'policy': policy
     }
 
-    with open('./state.json', 'w') as f:
-        json.dump(state, f, indent=4, default = dateconverter)
-        f.close()
+    return state
 
+def add_function(name):
+    with open('./state.json', 'r') as f:
+        state = json.load(f)
+        client = boto3.client('lambda')   
+        lambda_function = client.get_function(FunctionName=name)
+        arn = lambda_function['Configuration']['FunctionArn']+":latest"
+        function = static_config.FUNCTION_INITIAL_VERSION 
+        function['Functions'][0]['FunctionArn'] = arn
+        function['Functions'][0]['Id'] = str(uuid.uuid1())
 
-    generate_config_package(state)
-    print("Resources created, install the package on your device.")
+        response = greengrass.create_function_definition(InitialVersion=function)
+        state['function'] = response
+
+        subscription = static_config.SUBSCRIPTION_INITIAL_VERSION 
+        subscription['Subscriptions'][0]['Source'] = arn
+        subscription['Subscriptions'][0]['Id'] = str(uuid.uuid1())
+       
+        response = greengrass.create_subscription_definition(
+            InitialVersion=subscription
+        )
+        state['subscription'] = response
+
+        response = greengrass.create_group_version(
+            CoreDefinitionVersionArn=state['core_definition']['LatestVersionArn'],
+            FunctionDefinitionVersionArn=state['function']['LatestVersionArn'],
+            GroupId=state['group']['Id'],
+            LoggerDefinitionVersionArn=state['logger']['LatestVersionArn'],
+            ResourceDefinitionVersionArn=state['resource']['LatestVersionArn'],
+            SubscriptionDefinitionVersionArn=state['subscription']['LatestVersionArn']
+        )
+        return state
+    return None
 
 def get_connectivity():
     with open('./state.json', 'r') as f:
@@ -203,10 +230,10 @@ def get_connectivity():
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--create-group', dest='group_name', action='store',
-                   default='JETSON_WORKSHOP',
+                   default='',
                    help='Create a new Greengrass Group With the specified Name')
 parser.add_argument('--bucket', dest='bucket', action='store',
-                   default='JETSON_WORKSHOP',
+                   default='',
                    help='Specify the ML models bucket name')
 parser.add_argument('--delete-group', dest='delete_group', action='store_true',
                    default=False, 
@@ -214,6 +241,9 @@ parser.add_argument('--delete-group', dest='delete_group', action='store_true',
 parser.add_argument('--ip-address', dest='ip_address', action='store_true',
                    default=False, 
                    help='Get greengrass core ip address')
+parser.add_argument('--function', dest='function_name', action='store',
+                   default='', 
+                   help='Create a lambda in the group with the specified name')
 
 args = parser.parse_args()
 
@@ -224,4 +254,18 @@ elif args.ip_address:
 elif args.group_name != "" and args.bucket == "":
     print("Please specify a bucket with --bucket BUCKET_NAME")
 elif args.group_name != "":
-    create_group(args.group_name, args.bucket)
+    state = create_group(args.group_name, args.bucket)
+    with open('./state.json', 'w') as f:
+        json.dump(state, f, indent=4, default = dateconverter)
+        f.close()
+    generate_config_package(state)
+
+if args.function_name != "":
+    state = add_function(args.function_name)
+    if state:
+        with open('./state.json', 'w') as f:
+            json.dump(state, f, indent=4, default = dateconverter)
+            f.close()
+    else:
+        print("Cannot find state.json file")
+    print("Resources created, install the package on your device.")

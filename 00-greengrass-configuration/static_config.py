@@ -73,29 +73,71 @@ ROLE_POLICY = {
     ]
 }
 
-FUNCTION_INITIAL_VERSION = { ### TODO
-    "Functions": [
+SUBSCRIPTION_INITIAL_VERSION = {
+    'Subscriptions': [
         {
-            "Id": "greengrassLraTest",
-            "FunctionArn": "arn:aws:lambda:us-west-2:012345678901:function:lraTest:1",
-            "FunctionConfiguration": {
-                "Pinned": False,
-                "MemorySize": 16384,
-                "Timeout": 30,
-                "Environment": {
-                    "ResourceAccessPolicies": [
+            'Source': 'string',
+            'Subject': '#',
+            'Target': 'cloud'
+        },
+    ]
+}
+
+FUNCTION_INITIAL_VERSION = {
+    'Functions': [
+        {
+            'FunctionConfiguration': {
+                'Environment': {
+                    'ResourceAccessPolicies': [
                         {
-                            "ResourceId": "data-volume",
-                            "Permission": "rw"
+                            'Permission': 'rw',
+                            'ResourceId': 'data-volume-shm'
                         },
                         {
-                            "ResourceId": "data-device",
-                            "Permission": "ro"
-                        }                            
+                            'Permission': 'rw',
+                            'ResourceId': 'data-volume-tmp'
+                        },
+                        {
+                            'Permission': 'rw',
+                            'ResourceId': 'data-device-nvhost-gpu'
+                        },
+                        {
+                            'Permission': 'rw',
+                            'ResourceId': 'data-device-nvhost-ctrl'
+                        },
+                        {
+                            'Permission': 'rw',
+                            'ResourceId': 'data-device-nvhost-dbg-gpu'
+                        },
+                        {
+                            'Permission': 'rw',
+                            'ResourceId': 'data-device-nvhost-ctrl-gpu'
+                        },
+                        {
+                            'Permission': 'rw',
+                            'ResourceId': 'data-device-nvhost-prof-gpu'
+                        },
+                        {
+                            'Permission': 'rw',
+                            'ResourceId': 'data-device-nvhost-vic'
+                        },
+                        {
+                            'Permission': 'rw',
+                            'ResourceId': 'data-device-nvmap'
+                        }
                     ],
-                    "AccessSysfs": True
-                }
-            }
+                    'AccessSysfs': True,
+                    'Variables': {
+                        'MXNET_CUDNN_AUTOTUNE_DEFAULT': '0'
+                    }
+                },
+                'Pinned': True,
+                'EncodingType': 'json',
+                'MemorySize': 6144000,
+                'Timeout': 25
+            },
+            'FunctionArn': 'string',
+            'Id': 'string'
         }
     ]
 }
@@ -172,8 +214,8 @@ LOGGER_INITIAL_VERSION = {
 RESOURCE_INITIAL_VERSION = {
     "Resources": [
         {
-            "Id": "shm",
-            "Name": "data-volume-shm",
+            "Id": "data-volume-shm",
+            "Name": "shm",
             "ResourceDataContainer": {
                 "LocalVolumeResourceData": {
                     "SourcePath": "/dev/shm",
