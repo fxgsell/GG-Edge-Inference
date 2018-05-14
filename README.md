@@ -32,6 +32,8 @@ You're now set to start doing some ML @Edge.
 
 1. In the console subscribe to the topic `jetson/#`
 
+**There is currently an issue with this function that makes it freeze for around 30 seconds the first time it sees a face, however this only happens once.**
+
 You should be able to see the results of the inference both in the topic and the video stream. Great! Now you've used the basic components of Greengrass, let's move on and start doing your own models.
 
 ## A custom model ?
