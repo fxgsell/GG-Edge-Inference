@@ -115,5 +115,6 @@ Makefile.parameters
 00-greengrass-configuration/*.cert.pem
 00-greengrass-configuration/*.public.key
 00-greengrass-configuration/certificates.tar.gz
+00-greengrass-configuration/certificates
 00-greengrass-configuration/config.json
 00-greengrass-configuration/state.json

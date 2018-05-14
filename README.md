@@ -14,7 +14,7 @@ Using AWS Greengrass with the Nvidia Jetson TX1 to run ML models prepared with A
 
 1. Upload the resulting **certificates.tar.gz** on your device.
 
-1. Go back to the console and hit Deploy in your Greengrass Group.
+1. Go back to the console and hit Deploy in your Greengrass Group. (Choose "Automatic Detection")
 
 1. Wait for a short while, and run `python3 create-greengrass-config.py --ip-address` to get the IP of your device.
 
