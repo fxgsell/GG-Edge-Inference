@@ -1,0 +1,278 @@
+{
+    "role": {
+        "Role": {
+            "Path": "/",
+            "RoleName": "GG_Edge_Inference_Role_dc65575745",
+            "RoleId": "AROAJWQFW3HDXATB2QCL4",
+            "Arn": "arn:aws:iam::171473150649:role/GG_Edge_Inference_Role_dc65575745",
+            "CreateDate": "2018-05-14 09:15:50.484000+00:00",
+            "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Action": "sts:AssumeRole",
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": "greengrass.amazonaws.com"
+                        }
+                    }
+                ]
+            }
+        },
+        "ResponseMetadata": {
+            "RequestId": "6517cd29-5757-11e8-bd7d-8740a4df9048",
+            "HTTPStatusCode": 200,
+            "HTTPHeaders": {
+                "x-amzn-requestid": "6517cd29-5757-11e8-bd7d-8740a4df9048",
+                "content-type": "text/xml",
+                "content-length": "828",
+                "date": "Mon, 14 May 2018 09:15:49 GMT"
+            },
+            "RetryAttempts": 0
+        }
+    },
+    "role_policy": {
+        "Policy": {
+            "PolicyName": "GG_Edge_Inference_Policy_dc65575745",
+            "PolicyId": "ANPAJHCRTLOSUKOFMTXTK",
+            "Arn": "arn:aws:iam::171473150649:policy/GG_Edge_Inference_Policy_dc65575745",
+            "Path": "/",
+            "DefaultVersionId": "v1",
+            "AttachmentCount": 0,
+            "IsAttachable": true,
+            "CreateDate": "2018-05-14 09:15:50.772000+00:00",
+            "UpdateDate": "2018-05-14 09:15:50.772000+00:00"
+        },
+        "ResponseMetadata": {
+            "RequestId": "654482eb-5757-11e8-bd7d-8740a4df9048",
+            "HTTPStatusCode": 200,
+            "HTTPHeaders": {
+                "x-amzn-requestid": "654482eb-5757-11e8-bd7d-8740a4df9048",
+                "content-type": "text/xml",
+                "content-length": "742",
+                "date": "Mon, 14 May 2018 09:15:50 GMT"
+            },
+            "RetryAttempts": 0
+        }
+    },
+    "group": {
+        "ResponseMetadata": {
+            "RequestId": "642668af-5757-11e8-abd2-47a8076c1b3b",
+            "HTTPStatusCode": 201,
+            "HTTPHeaders": {
+                "date": "Mon, 14 May 2018 09:15:49 GMT",
+                "content-type": "application/json",
+                "content-length": "522",
+                "connection": "keep-alive",
+                "x-amzn-requestid": "642668af-5757-11e8-abd2-47a8076c1b3b",
+                "x-amzn-greengrass-trace-id": "Root=1-5af953c4-468eb9eed9181c893989444e",
+                "x-amz-apigw-id": "G3oGwFPOIAMFb_w=",
+                "location": "/greengrass/groups/dde708bb-5665-4c96-983b-1463f2db481b/versions/513a06b2-4499-4392-a54d-6642934b2b29",
+                "x-amzn-trace-id": "Root=1-5af953c4-9cbac21bd3dec9d7a95707b2"
+            },
+            "RetryAttempts": 0
+        },
+        "Arn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/groups/dde708bb-5665-4c96-983b-1463f2db481b",
+        "CreationTimestamp": "2018-05-14T09:15:48.905Z",
+        "Id": "dde708bb-5665-4c96-983b-1463f2db481b",
+        "LastUpdatedTimestamp": "2018-05-14T09:15:48.905Z",
+        "LatestVersion": "513a06b2-4499-4392-a54d-6642934b2b29",
+        "LatestVersionArn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/groups/dde708bb-5665-4c96-983b-1463f2db481b/versions/513a06b2-4499-4392-a54d-6642934b2b29",
+        "Name": "JETSON_3"
+    },
+    "core_thing": {
+        "ResponseMetadata": {
+            "RequestId": "6213406c-5757-11e8-a30d-23c510797363",
+            "HTTPStatusCode": 200,
+            "HTTPHeaders": {
+                "content-type": "application/json",
+                "content-length": "147",
+                "connection": "keep-alive",
+                "date": "Mon, 14 May 2018 09:15:45 GMT",
+                "x-amzn-requestid": "6213406c-5757-11e8-a30d-23c510797363",
+                "access-control-allow-origin": "*",
+                "x-amz-apigw-id": "G3oGOEyQoAMFmUg=",
+                "x-amzn-trace-id": "Root=1-5af953c1-a9ba4ee33df15c956a9ad624",
+                "x-cache": "Miss from cloudfront",
+                "via": "1.1 47f0d09d9d5d7d899c2e467cfbfb08e0.cloudfront.net (CloudFront)",
+                "x-amz-cf-id": "aAVrcBSTbYkQUnAOJ4tAaQvtUcBytbsZVNUFVRROMsCGg_KMHS3Deg=="
+            },
+            "RetryAttempts": 0
+        },
+        "thingName": "JETSON_3_Core",
+        "thingArn": "arn:aws:iot:us-east-1:171473150649:thing/JETSON_3_Core",
+        "thingId": "c341d7a3-e56e-4032-bddb-db34dd2bd106"
+    },
+    "keys_cert": {
+        "ResponseMetadata": {
+            "RequestId": "61d9927a-5757-11e8-90e2-457a1ec69e2a",
+            "HTTPStatusCode": 200,
+            "HTTPHeaders": {
+                "content-type": "application/json",
+                "content-length": "3674",
+                "connection": "keep-alive",
+                "date": "Mon, 14 May 2018 09:15:45 GMT",
+                "x-amzn-requestid": "61d9927a-5757-11e8-90e2-457a1ec69e2a",
+                "access-control-allow-origin": "*",
+                "x-amz-apigw-id": "G3oGKFZWoAMFZMQ=",
+                "x-amzn-trace-id": "Root=1-5af953c1-fa897b9a5b9baa77821ac878",
+                "x-cache": "Miss from cloudfront",
+                "via": "1.1 47f0d09d9d5d7d899c2e467cfbfb08e0.cloudfront.net (CloudFront)",
+                "x-amz-cf-id": "HYWTKyK0qgs69A9JX_DwdJmdQk9vt5JkI2vZ92nvRFiaTWMk_JMMQQ=="
+            },
+            "RetryAttempts": 0
+        },
+        "certificateArn": "arn:aws:iot:us-east-1:171473150649:cert/ba57f0c34e1c9407a6a58f4089690805be586e018a4ce6da23a2e9dc65575745",
+        "certificateId": "ba57f0c34e1c9407a6a58f4089690805be586e018a4ce6da23a2e9dc65575745",
+        "certificatePem": "-----BEGIN CERTIFICATE-----\nMIIDWTCCAkGgAwIBAgIUX5ep+4tu57LKfDX/EAb0EwRpnJIwDQYJKoZIhvcNAQEL\nBQAwTTFLMEkGA1UECwxCQW1hem9uIFdlYiBTZXJ2aWNlcyBPPUFtYXpvbi5jb20g\nSW5jLiBMPVNlYXR0bGUgU1Q9V2FzaGluZ3RvbiBDPVVTMB4XDTE4MDUxNDA5MTM0\nNVoXDTQ5MTIzMTIzNTk1OVowHjEcMBoGA1UEAwwTQVdTIElvVCBDZXJ0aWZpY2F0\nZTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALupuL0/30SFFhzme0Bo\ncTObyPwcZ97XsmmLZRx/GsnUJaMx9xVVxKHfMRrf3Ogtupxaq4OAYCPZoU4UZ3ds\nk982M/Ky2D1XoNQ1/CnsHUSCcacjPxxyML9gPDQg7oQruHPdqGNGZqleMUURHfHG\nXi9CpauygcdmZKDgoTH3mpQyPk1NOsyNFB7N4E3A9WM5/EDFBv6R58kpEwqTl9Wy\niWc5hsUWjZm3W8xx1xH+V/iEQXLoXoQaflHU1N25XFye3J4KmrzMM1AyDCT53VhK\nhKmXOyTgXZRO3mG1bXvz9SWRlfDgZqSOT17XpWlQeJ3pWtmNZMeWAfRqXAbc/xFX\nUfMCAwEAAaNgMF4wHwYDVR0jBBgwFoAUH1fp3lR+NL1adxCT0G3SErWSg3AwHQYD\nVR0OBBYEFC9Vmjh+WqZxZ0OXQFQfJrBcGrZWMAwGA1UdEwEB/wQCMAAwDgYDVR0P\nAQH/BAQDAgeAMA0GCSqGSIb3DQEBCwUAA4IBAQCGodB0I4AVkClWLXUcfD5RZNIN\nHEiqzB3SLO33aaNsUTwUw8CTXtzAGGwfSQKeDz7LhQmnCAzTeQr47GBuHYwsbaqk\nqmTWnUeSuMms80kF4oxk1YCNU/BWFoByvsxs1EdonOEByGNxn437VxhPLml33tOq\nb7Kb2t/VQuE7VCKktH9WEyMXoJGrW1WMMFW72prq/1FUuw8LTRA0jqsvPcFSgkXK\nxqyv8Y8RpNYYXW6bq3jO+Z79LPpVPA+SBzxWXNahyFIrgAnX9O9ISCb2JaOk58zO\nk34vPCL6+k74fSNZnD4Ua2j48VyEBUMFM0c/f4kyXavJ8r2BPPJSvJCvOF5t\n-----END CERTIFICATE-----\n",
+        "keyPair": {
+            "PublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu6m4vT/fRIUWHOZ7QGhx\nM5vI/Bxn3teyaYtlHH8aydQlozH3FVXEod8xGt/c6C26nFqrg4BgI9mhThRnd2yT\n3zYz8rLYPVeg1DX8KewdRIJxpyM/HHIwv2A8NCDuhCu4c92oY0ZmqV4xRREd8cZe\nL0Klq7KBx2ZkoOChMfealDI+TU06zI0UHs3gTcD1Yzn8QMUG/pHnySkTCpOX1bKJ\nZzmGxRaNmbdbzHHXEf5X+IRBcuhehBp+UdTU3blcXJ7cngqavMwzUDIMJPndWEqE\nqZc7JOBdlE7eYbVte/P1JZGV8OBmpI5PXtelaVB4nela2Y1kx5YB9GpcBtz/EVdR\n8wIDAQAB\n-----END PUBLIC KEY-----\n",
+            "PrivateKey": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAu6m4vT/fRIUWHOZ7QGhxM5vI/Bxn3teyaYtlHH8aydQlozH3\nFVXEod8xGt/c6C26nFqrg4BgI9mhThRnd2yT3zYz8rLYPVeg1DX8KewdRIJxpyM/\nHHIwv2A8NCDuhCu4c92oY0ZmqV4xRREd8cZeL0Klq7KBx2ZkoOChMfealDI+TU06\nzI0UHs3gTcD1Yzn8QMUG/pHnySkTCpOX1bKJZzmGxRaNmbdbzHHXEf5X+IRBcuhe\nhBp+UdTU3blcXJ7cngqavMwzUDIMJPndWEqEqZc7JOBdlE7eYbVte/P1JZGV8OBm\npI5PXtelaVB4nela2Y1kx5YB9GpcBtz/EVdR8wIDAQABAoIBAGwHrQiM31tTfcJP\nT/5o4VnDQXUYaRcYdmVZ0HASH3q2PKBwn/tRL2u7z0nYOxQRVw6xB3EhErcwjjIj\nfth50bo6OrdpCyBs9HGVTj9X5BVPPlvn52nZtoREwwODPasqe/l/TXMw0OKJDbXj\nv6gx+IAeTr7DeQAvypfuF/1quzq5n3gDwJ5+R4orPy5ha0M68kOmsZOCRekf0nqm\nhz2kkg5FCZR96NbTY2uDTFvd41wDvgk2mkNSRuwQlvUfO1nr8Fc7SBmvyFS0I2tz\nmPOOdawQhoijyTZ4HHXM/2idnpQhW5gESxdQxHJfZPxGZOS+3rRBZcf+cTJN9flX\n6JbvLNECgYEA940L0jPd6UmurFaX/lu4pQDXsBAxRTFUW6RvomxUwMhWAK/pJyCO\nUgTmsW5IWWb0tGCck9cj6+dxK/fNXNtX+EXWiZJA2CP9+AqnDBKsTZ23sAyG7+0L\nDCudo7edWC2s+dVBnwrPcyEPYFswhU2wtugD6hjS46hCbtJj7mLKv7kCgYEAwhFo\n4EWwvAxDVzZdHVmVE6XJMPGtIg7HAWLIE2AnHTzx5Yutdmae2tEq3ECQoaP9XmTI\nvsD9liprBaAMojBBR0wzxeTSvY28gIMgePFfQ3edDda5RN7ITbIywmu349vuFZg2\nE8j5ZrbFPa51fsiQuJrSwa83HeKh1annt9+CPQsCgYAj241rzFGHmkGv+vcXRAfx\n9rZHbYEFicizYZU+DL0WE67JeLGoFkInRUh5SQU31f76JchobdBpOmQdP07C9Y6/\nirYxxTqZVFVUWY6q5AWLVJ4n5Riipk5kW+kArvcer7cPlUFlHTbBcXd9uJfFp2RC\nikcO4LujeFrvHJCXFj5SGQKBgBmveDQGxUd+UANg/J3/101Maf6CXindztUOH/EA\njuy9vj5laEX9exT3DjcsjHf4XnZ53F/y5x1S6+tIraNhw6IOIeQVTxcrhUF1GX0o\nZTVmxXCpdMf6vIQcC7/TxfjwiOhuxumDdg70LdLmHkLzhMQKKc7cw+y+rDC9Vh/u\nAyzVAoGBANGIQVYxfs2T/W8G16lwXd/QDYKO83WG0u5NJ44EYAkmUwMGMkP9n8fi\nxGEhIBwAgl6JVTBsUq2Twarzq18upay5sXew9zDQQcI3Ql1YuWhx8IchVB0CRhAp\n//XEr0u0Hs3uSqfMh/R6dMSTGX3662beBCdtFj+mFbfRZxMsy1YE\n-----END RSA PRIVATE KEY-----\n"
+        }
+    },
+    "resource": {
+        "ResponseMetadata": {
+            "RequestId": "63e93886-5757-11e8-b3b8-61ca8b8efe1a",
+            "HTTPStatusCode": 201,
+            "HTTPHeaders": {
+                "date": "Mon, 14 May 2018 09:15:48 GMT",
+                "content-type": "application/json",
+                "content-length": "527",
+                "connection": "keep-alive",
+                "x-amzn-requestid": "63e93886-5757-11e8-b3b8-61ca8b8efe1a",
+                "x-amzn-greengrass-trace-id": "Root=1-5af953c4-a70aaf9215b6898031413d33",
+                "x-amz-apigw-id": "G3oGsH4bIAMFXDg=",
+                "location": "/greengrass/definition/resources/d5e2e868-79ed-4c3f-b930-5ff0bb74460a/versions/890262f5-b56b-4398-b3c5-a853cbeefea8",
+                "x-amzn-trace-id": "Root=1-5af953c4-f430b99074ec2ac9793cb8b5"
+            },
+            "RetryAttempts": 0
+        },
+        "Arn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/resources/d5e2e868-79ed-4c3f-b930-5ff0bb74460a",
+        "CreationTimestamp": "2018-05-14T09:15:48.558Z",
+        "Id": "d5e2e868-79ed-4c3f-b930-5ff0bb74460a",
+        "LastUpdatedTimestamp": "2018-05-14T09:15:48.558Z",
+        "LatestVersion": "890262f5-b56b-4398-b3c5-a853cbeefea8",
+        "LatestVersionArn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/resources/d5e2e868-79ed-4c3f-b930-5ff0bb74460a/versions/890262f5-b56b-4398-b3c5-a853cbeefea8"
+    },
+    "logger": {
+        "ResponseMetadata": {
+            "RequestId": "63b249fd-5757-11e8-b082-79af7b2d27ea",
+            "HTTPStatusCode": 201,
+            "HTTPHeaders": {
+                "date": "Mon, 14 May 2018 09:15:48 GMT",
+                "content-type": "application/json",
+                "content-length": "523",
+                "connection": "keep-alive",
+                "x-amzn-requestid": "63b249fd-5757-11e8-b082-79af7b2d27ea",
+                "x-amzn-greengrass-trace-id": "Root=1-5af953c4-b3f55484f9ef995a3645031e",
+                "x-amz-apigw-id": "G3oGpEFYoAMFcYg=",
+                "location": "/greengrass/coreDefinitionVersion/logger/6e1555f1-b508-4327-9c04-ce929d326160/versions/0e81ea6c-7bb0-4532-9c99-85b71b46b10c",
+                "x-amzn-trace-id": "Root=1-5af953c4-c78f1bd1829b91177ead463a"
+            },
+            "RetryAttempts": 0
+        },
+        "Arn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/loggers/6e1555f1-b508-4327-9c04-ce929d326160",
+        "CreationTimestamp": "2018-05-14T09:15:48.186Z",
+        "Id": "6e1555f1-b508-4327-9c04-ce929d326160",
+        "LastUpdatedTimestamp": "2018-05-14T09:15:48.186Z",
+        "LatestVersion": "0e81ea6c-7bb0-4532-9c99-85b71b46b10c",
+        "LatestVersionArn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/loggers/6e1555f1-b508-4327-9c04-ce929d326160/versions/0e81ea6c-7bb0-4532-9c99-85b71b46b10c"
+    },
+    "core_definition": {
+        "ResponseMetadata": {
+            "RequestId": "636eb166-5757-11e8-8bb9-6ba44d8e2a16",
+            "HTTPStatusCode": 201,
+            "HTTPHeaders": {
+                "date": "Mon, 14 May 2018 09:15:47 GMT",
+                "content-type": "application/json",
+                "content-length": "547",
+                "connection": "keep-alive",
+                "x-amzn-requestid": "636eb166-5757-11e8-8bb9-6ba44d8e2a16",
+                "x-amzn-greengrass-trace-id": "Root=1-5af953c3-6700971623a587154c84a169",
+                "x-amz-apigw-id": "G3oGkFIBIAMFRLA=",
+                "location": "/greengrass/coreDefinitionVersion/cores/52ce5774-850e-4942-85f3-f125dbe3e22e/versions/ef4566ff-16de-471a-a22a-ba3d85199495",
+                "x-amzn-trace-id": "Root=1-5af953c3-02589329f567069866d02c4e"
+            },
+            "RetryAttempts": 0
+        },
+        "Arn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/cores/52ce5774-850e-4942-85f3-f125dbe3e22e",
+        "CreationTimestamp": "2018-05-14T09:15:47.754Z",
+        "Id": "52ce5774-850e-4942-85f3-f125dbe3e22e",
+        "LastUpdatedTimestamp": "2018-05-14T09:15:47.754Z",
+        "LatestVersion": "ef4566ff-16de-471a-a22a-ba3d85199495",
+        "LatestVersionArn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/cores/52ce5774-850e-4942-85f3-f125dbe3e22e/versions/ef4566ff-16de-471a-a22a-ba3d85199495",
+        "Name": "JETSON_3_Core"
+    },
+    "policy": {
+        "ResponseMetadata": {
+            "RequestId": "6275f99f-5757-11e8-971a-47223f40e7f7",
+            "HTTPStatusCode": 200,
+            "HTTPHeaders": {
+                "content-type": "application/json",
+                "content-length": "745",
+                "connection": "keep-alive",
+                "date": "Mon, 14 May 2018 09:15:46 GMT",
+                "x-amzn-requestid": "6275f99f-5757-11e8-971a-47223f40e7f7",
+                "access-control-allow-origin": "*",
+                "x-amz-apigw-id": "G3oGUGIlIAMFfTQ=",
+                "x-amzn-trace-id": "Root=1-5af953c2-bd61647cc59ca0ab5f491446",
+                "x-cache": "Miss from cloudfront",
+                "via": "1.1 47f0d09d9d5d7d899c2e467cfbfb08e0.cloudfront.net (CloudFront)",
+                "x-amz-cf-id": "_gT22g9-Gl_Vy5uCWoTLm7mo0hWIy8EBzikjnPCqHcIzcMqDqPJmZQ=="
+            },
+            "RetryAttempts": 0
+        },
+        "policyName": "JETSON_3_policy",
+        "policyArn": "arn:aws:iot:us-east-1:171473150649:policy/JETSON_3_policy",
+        "policyDocument": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"iot:Publish\", \"iot:Subscribe\", \"iot:Connect\", \"iot:Receive\", \"iot:GetThingShadow\", \"iot:DeleteThingShadow\", \"iot:UpdateThingShadow\"], \"Resource\": [\"arn:aws:iot:us-east-1:*:*\"]}, {\"Effect\": \"Allow\", \"Action\": [\"greengrass:AssumeRoleForGroup\", \"greengrass:CreateCertificate\", \"greengrass:GetConnectivityInfo\", \"greengrass:GetDeployment\", \"greengrass:GetDeploymentArtifacts\", \"greengrass:UpdateConnectivityInfo\", \"greengrass:UpdateCoreDeploymentStatus\"], \"Resource\": [\"*\"]}]}",
+        "policyVersionId": "1"
+    },
+    "function": {
+        "ResponseMetadata": {
+            "RequestId": "66bc5540-5757-11e8-914a-450aeffcd572",
+            "HTTPStatusCode": 201,
+            "HTTPHeaders": {
+                "date": "Mon, 14 May 2018 09:15:53 GMT",
+                "content-type": "application/json",
+                "content-length": "527",
+                "connection": "keep-alive",
+                "x-amzn-requestid": "66bc5540-5757-11e8-914a-450aeffcd572",
+                "x-amzn-greengrass-trace-id": "Root=1-5af953c9-44b79be50ba374f551649105",
+                "x-amz-apigw-id": "G3oHcEd-oAMFS5Q=",
+                "location": "/greengrass/coreDefinitionVersion/lambdas/42fd8baa-931e-43ca-b931-17ae0056b9d7/versions/71cfc4a1-f29c-4a62-8d8c-aa4565bf1a25",
+                "x-amzn-trace-id": "Root=1-5af953c9-dfd65200c11a921d7cdbef1e"
+            },
+            "RetryAttempts": 0
+        },
+        "Arn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/functions/42fd8baa-931e-43ca-b931-17ae0056b9d7",
+        "CreationTimestamp": "2018-05-14T09:15:53.269Z",
+        "Id": "42fd8baa-931e-43ca-b931-17ae0056b9d7",
+        "LastUpdatedTimestamp": "2018-05-14T09:15:53.269Z",
+        "LatestVersion": "71cfc4a1-f29c-4a62-8d8c-aa4565bf1a25",
+        "LatestVersionArn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/functions/42fd8baa-931e-43ca-b931-17ae0056b9d7/versions/71cfc4a1-f29c-4a62-8d8c-aa4565bf1a25"
+    },
+    "subscription": {
+        "ResponseMetadata": {
+            "RequestId": "66f232f4-5757-11e8-8d28-93dc93707125",
+            "HTTPStatusCode": 201,
+            "HTTPHeaders": {
+                "date": "Mon, 14 May 2018 09:15:55 GMT",
+                "content-type": "application/json",
+                "content-length": "535",
+                "connection": "keep-alive",
+                "x-amzn-requestid": "66f232f4-5757-11e8-8d28-93dc93707125",
+                "x-amzn-greengrass-trace-id": "Root=1-5af953c9-638c9ee6520fd6f3ac00ccc7",
+                "x-amz-apigw-id": "G3oHfF3joAMFa5A=",
+                "location": "/greengrass/coreDefinitionVersion/subscriptions/d568f8fc-075e-402f-87a7-a0066287a827/versions/d2742757-d35b-4fe9-8923-2eafb381d593",
+                "x-amzn-trace-id": "Root=1-5af953c9-bd5c3cc1cb80391538095997"
+            },
+            "RetryAttempts": 0
+        },
+        "Arn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/subscriptions/d568f8fc-075e-402f-87a7-a0066287a827",
+        "CreationTimestamp": "2018-05-14T09:15:54.596Z",
+        "Id": "d568f8fc-075e-402f-87a7-a0066287a827",
+        "LastUpdatedTimestamp": "2018-05-14T09:15:54.596Z",
+        "LatestVersion": "d2742757-d35b-4fe9-8923-2eafb381d593",
+        "LatestVersionArn": "arn:aws:greengrass:us-east-1:171473150649:/greengrass/definition/subscriptions/d568f8fc-075e-402f-87a7-a0066287a827/versions/d2742757-d35b-4fe9-8923-2eafb381d593"
+    }
+}
