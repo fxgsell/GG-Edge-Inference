@@ -8,7 +8,7 @@ Using AWS Greengrass with the Nvidia Jetson TX1 to run ML models prepared with A
 
 1. Create a lambda with the Python2.7 runtime, create an alias "latest" pointing to $LATEST.
 
-1. `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function demo-inference`
+1. In `00-greengrass-configuration` run `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function demo-inference`
 
     - Change the 3 parameters to values of your choice (Group Name, Bucket Name and Function Name)
 
@@ -22,13 +22,25 @@ You're now set to start doing some ML @Edge.
 
 ## A first model running on Greengrass
 
-1. Go in the first directory 01-face-detection.
+1. At the root of the repo copy `Makefile.parameters.sample` to `Makefile.parameters` and edit it with your values.
 
-1. Edit Makefile.parameters with your values.
+1. Go in the first directory 01-face-detection.
 
 1. Run `make publish`
 
 1. After the deployment is done you can view the output with: `ssh DEVICE-IP cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32`
+
+1. In the console subscribe to the topic `jetson/#`
+
+You should be able to see the results of the inference both in the topic and the video stream. Great! Now you've used the basic components of Greengrass, let's move on and start doing your own models.
+
+## A custom model ?
+
+1. Go in SageMaker, load the notebook.jpnb blabla..
+
+## Shot at HPO ?
+
+1. Go in SageMaker, load the notebook.jpnb blabla..
 
 ## Tips
 

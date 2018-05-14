@@ -93,7 +93,7 @@ def generate_config_package(state):
 def create_function(): #TODO
     return 
 
-def create_gg_role(bucket_name):
+def create_gg_role(bucket_name, id):
     print("Creating IAM role for Greengrass")
     document = static_config.ROLE_POLICY
     assume_role_document = {
@@ -110,12 +110,12 @@ def create_gg_role(bucket_name):
     }
 
     role = iam.create_role(
-        RoleName='GG_Edge_Inference_Role',
+        RoleName='GG_Edge_Inference_Role_'+id,
         AssumeRolePolicyDocument=json.dumps(assume_role_document)
     )
     document['Statement'][0]["Resource"] = document['Statement'][0]["Resource"] + bucket_name
     policy = iam.create_policy(
-        PolicyName='GG_Edge_Inference_Policy',
+        PolicyName='GG_Edge_Inference_Policy_'+id,
         PolicyDocument=json.dumps(document),
         Description='Grant access to cloud watch and an s3 bucket'
     )
@@ -168,7 +168,7 @@ def create_group(group_name, bucket):
         Name=group_name
     )
 
-    role, role_policy = create_gg_role(bucket)
+    role, role_policy = create_gg_role(bucket, certificate['certificateArn'][-10:])
     greengrass.associate_role_to_group(
         GroupId=group['Id'],
         RoleArn=role['Role']['Arn']
