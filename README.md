@@ -4,9 +4,9 @@ This workshop let you use AWS Greengrass with the Nvidia Jetson TX1 to run ML mo
 
 ## Walkthrough
 
-1. [Get started](./1-greengrass-configuration/README.md) with the configuration of AWS Greengrass and your device.
+1. [Get started](./1-greengrass-configuration/) with the configuration of AWS Greengrass and your device.
 
-1. [Run a first model](./2-face-detection/README.md).
+1. [Run a first model](./2-face-detection/).
 
 1. A custom model ?
 

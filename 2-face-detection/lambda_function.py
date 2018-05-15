@@ -69,8 +69,6 @@ class FileVideoStream:
 
 fvs = FileVideoStream(1).start()
 frame = fvs.read()
-time.sleep(2)
-frame = fvs.read()
 _, jpeg = cv2.imencode('.jpg', frame)
 
 Write_To_FIFO = True
@@ -89,7 +87,7 @@ class FIFO_Thread(Thread):
             try:
                 f.write(jpeg.tobytes())
             except IOError as e:
-                GGC.publish(topic=IOT_TOPIC_ADMIN, payload=e)
+                GGC.publish(topic=IOT_TOPIC_ADMIN, payload=str(e))
                 continue
 
 # Create arrays of known face encodings and their names
