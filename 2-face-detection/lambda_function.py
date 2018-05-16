@@ -36,13 +36,12 @@ class FileVideoStream:
             return cv2.VideoCapture(gst_str, cv2.CAP_GSTREAMER)
 
         self.stream = open_cam_onboard(640, 480)
-
-        
         self.stopped = False
 
         if not self.stream.isOpened():
-            GGC.publish(topic=IOT_TOPIC_ADMIN, payload="Failed to open camera!")
-            sys.exit("Failed to open camera!")
+            msg = "Exiting: (FileVideoStream:__init__) Failed to open camera."
+            GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
+            sys.exit(msg)
         else:
             print("Cam is opened")
 
@@ -55,10 +54,7 @@ class FileVideoStream:
         return self   
 
     def update(self):
-        while True:
-            if self.stopped:
-                return
-
+        while not self.stopped:
             self.grabbed, self.frame = self.stream.read()
 
     def read(self):
@@ -71,11 +67,14 @@ fvs = FileVideoStream(1).start()
 frame = fvs.read()
 _, jpeg = cv2.imencode('.jpg', frame)
 
-Write_To_FIFO = True
 class FIFO_Thread(Thread):
     def __init__(self):
         ''' Constructor. '''
         Thread.__init__(self)
+        self.stopped = False
+
+    def stop(self):
+        self.stopped = True
 
     def run(self):
         fifo_path = "/tmp/results.mjpeg"
@@ -83,11 +82,13 @@ class FIFO_Thread(Thread):
             os.mkfifo(fifo_path)
         f = open(fifo_path, 'w')
         GGC.publish(topic=IOT_TOPIC, payload="Opened Pipe")
-        while Write_To_FIFO:
+        while not self.stopped:
             try:
                 f.write(jpeg.tobytes())
             except IOError as e:
-                GGC.publish(topic=IOT_TOPIC_ADMIN, payload=str(e))
+                msg = "Exception: (FIFO_Thread:run) "+ str(e)
+                GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
+                f = open(fifo_path, 'w')
                 continue
 
 # Create arrays of known face encodings and their names
@@ -106,8 +107,8 @@ colors = [
     (0, 0, 255),
 ]
 
-GGC.publish(topic=IOT_TOPIC_ADMIN, payload='Loading new Thread.')
-GGC.publish(topic=IOT_TOPIC_ADMIN, payload='CV: '+cv2.__version__)
+GGC.publish(topic=IOT_TOPIC_ADMIN, payload='Info: Loading new Thread.')
+GGC.publish(topic=IOT_TOPIC_ADMIN, payload='Info: OpenCV '+cv2.__version__)
 
 def is_known(face):
     tolerance = 0.6
@@ -116,30 +117,33 @@ def is_known(face):
         if len(known_face_encodings) > 0:
             norm = np.linalg.norm(known_face_encodings - face, axis=1)
     except Exception as e:
-        msg = "Matching faces: " + str(e)
+        msg = "Exception: (is_known) "+ str(e)
         GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
         raise e
 
     return list(norm <= tolerance)
 
-def loop():
-    try:
-        start = timer()
-        last_face = ""
-        if FILE_OUTPUT:
-            results_thread = FIFO_Thread()
-            results_thread.start()
+def main_loop():
+    if FILE_OUTPUT:
+        results_thread = FIFO_Thread()
+        results_thread.start()
 
-        ### inference
+    ### inference
+    try:
         while 42:
+            start = timer()
             frame = fvs.read()
 
-            small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-            rgb_small_frame = small_frame[:, :, ::-1]
+            FULL_SIZE = True
 
-            # Find all the faces and face encodings in the current frame of video
-            face_locations = face_recognition.face_locations(rgb_small_frame)
-            face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+            if FULL_SIZE:
+                face_locations = face_recognition.face_locations(frame)
+                face_encodings = face_recognition.face_encodings(frame, face_locations)
+            else:
+                small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+                rgb_small_frame = small_frame[:, :, ::-1]
+                face_locations = face_recognition.face_locations(rgb_small_frame)
+                face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
 
             face_names = []
 
@@ -158,18 +162,23 @@ def loop():
                         known_face_names.pop(0) 
                     
                     global seen
-                    name = "User"+str(seen)
+                    name = "New"+str(seen)
                     seen = seen + 1
 
                     known_face_encodings.append(face_encoding)
                     known_face_names.append(name)
 
+                    msg = "Info: (main_loop) New face detected: " + name
+                    GGC.publish(topic=IOT_TOPIC, payload=msg)
+
                 face_names.append(name)
 
-                top *= 4
-                right *= 4
-                bottom *= 4
-                left *= 4
+                if not FULL_SIZE:
+                    top *= 4
+                    right *= 4
+                    bottom *= 4
+                    left *= 4
+
                 # Draw a box around the face
                 cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
 
@@ -179,28 +188,23 @@ def loop():
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
                 time_start = timer() - start
-                if name != last_face and time_start >= 5:
-                    last_face = name
-                    GGC.publish(topic=IOT_TOPIC, payload=name)
-
-                # time_matching = timer() - start
-                # msg = "Matching time: {:.4f} sec".format(time_matching)
+                # msg = "Debug: (main_loop) Matching time is {:.4f} sec".format(time_start)
                 # GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
 
             if FILE_OUTPUT:
                 global jpeg
                 _, jpeg = cv2.imencode('.jpg', frame)
 
-            # time_frame = timer() - start
-            # msg = "Total time: {:.4f} sec".format(time_frame)
-            # GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
-        
-
     except Exception as e:
-        msg = "Test failed: " + str(e)
+        msg = "Exception: (main_loop) "+ str(e)
         GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
 
-loop()
+    if FILE_OUTPUT:
+        results_thread.stop()
+
+    fvs.stop()
+
+main_loop()
 
 def lambda_handler(event, context):
     return

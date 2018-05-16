@@ -4,17 +4,15 @@ This workshop let you use AWS Greengrass with the Nvidia Jetson TX1 to run ML mo
 
 ## Walkthrough
 
-1. [Get started](./1-greengrass-configuration/) with the configuration of AWS Greengrass and your device.
+1. [Get started with the configuration of AWS Greengrass and your device.](./1-greengrass-configuration/)
 
-1. [Run a first model](./2-face-detection/).
+1. [Run a first model.](./2-face-detection/)
 
-1. A custom model ?
+1. [Add capability to your Edge model with the Cloud.](./3-hybrid-face-recognition/)
 
-    1. Go in SageMaker, load the notebook.jpnb blabla..
+1. [Build your own object detection model in SageMaker.](./4-custom-object-detection/)
 
-1. Shot at HPO ?
-
-    1. Go in SageMaker, load the notebook.jpnb blabla..
+1. (Optional) Advanced capabilities of the Jetson with Deepstream.
 
 ## Tips
 
