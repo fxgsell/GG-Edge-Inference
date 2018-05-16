@@ -3,9 +3,8 @@
 1. Create an S3 bucket to host the models.
 
 1. Create the lambda for inference:
-    - Choose Python2.7 runtime,
+    - Choose the `Python 2.7` runtime,
     - Create an alias `latest` pointing to `$LATEST`,
-    - Add an env variable `BUCKET` with the bucket name.
 
 1. Run `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function demo-inference`
     - Set the 3 parameters's values: a new **Group Name** and the same values that you choose in the previous steps for the **bucket** and  the **function** names.

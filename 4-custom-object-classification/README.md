@@ -6,6 +6,8 @@
 
 1. In the IOT console add a ML Resource to your Greengras Group. Choose the resource destination path for the model and also add it as an env variable for the Lambda `ML_PATH`.
 
+1. Still in the IOT console add an env variable `BUCKET` with the bucket name to the lamnda function.
+
 1. Run `make` and wait for it (the device must download the model so it might be slower than in the previous sections).
 
 ## Extra Work
