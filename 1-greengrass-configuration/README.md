@@ -2,15 +2,17 @@
 
 1. Create an S3 bucket to host the models.
 
-1. Create a lambda with the Python2.7 runtime, create an alias "latest" pointing to $LATEST.
+1. Create the lambda for inference:
+    - Choose Python2.7 runtime,
+    - Create an alias `latest` pointing to `$LATEST`,
+    - Add an env variable `BUCKET` with the bucket name.
 
-1. In `00-greengrass-configuration` run `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function demo-inference`
+1. Run `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function demo-inference`
+    - Set the 3 parameters's values: a new **Group Name** and the same values that you choose in the previous steps for the **bucket** and  the **function** names.
 
-    - Change the 3 parameters to values of your choice (Group Name, Bucket Name and Function Name)
+1. Upload the resulting `certificates.tar.gz` on your device.
 
-1. Upload the resulting **certificates.tar.gz** on your device.
-
-1. Go back to the console and hit Deploy in your Greengrass Group. (Choose "Automatic Detection")
+1. Go back to the console and hit Deploy in your Greengrass Group. (Choose "Automatic Detection" at the first step)
 
 1. Once the deployment finished you can go look in the console or run `python3 create-greengrass-config.py --ip-address` to get the IP of your device.
 

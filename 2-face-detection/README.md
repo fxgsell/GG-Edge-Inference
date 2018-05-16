@@ -1,4 +1,6 @@
-## A first model running on Greengrass
+# A first model running on Greengrass
+
+## Steps
 
 1. At the root of the repo copy `Makefile.parameters.sample` to `Makefile.parameters` and edit it with your values.
 
