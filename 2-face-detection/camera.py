@@ -1,42 +1,61 @@
+'''
+Module camera provides the VideoStream class which
+offers a threaded interface to multiple types of cameras.
+'''
 from threading import Thread
 import os
+import platform
 import cv2 # pylint: disable=import-error
 
 class VideoStream:
+    '''
+    Instantiate the VideStream class and call the start() method
+    to be able to read from the camera, instantiate only once.
+    Use the method read() to get the latest frame.
+    '''
     def __init__(self):
-        def open_cam_onboard(width, height):
-            gst_str = ("nvcamerasrc ! "
-                        "video/x-raw(memory:NVMM), width=(int)2592, height=(int)1458, format=(string)I420, framerate=(fraction)30/1 ! "
-                        "nvvidconv ! video/x-raw, width=(int){}, height=(int){}, format=(string)BGRx ! "
-                        "videoconvert ! appsink").format(width, height)
-            return cv2.VideoCapture(gst_str, cv2.CAP_GSTREAMER)
-
-        if os.path.isfile('/dev/video1'):
+        ''' Constructor. Chooses a camera to read from. '''
+        if platform.system() == 'Darwin':
+            self.stream = cv2.VideoCapture(0)
+            self.stream.set(3,640)
+            self.stream.set(4,480)
+        elif os.path.isfile('/dev/video1'):
             self.stream = cv2.VideoCapture('/dev/video1')
         elif os.path.isfile('/dev/video0'):
             self.stream = cv2.VideoCapture('/dev/video0')
         else:
-            self.stream = open_cam_onboard(640, 480)
-
+            width = 640
+            height = 480
+            gst_str = ("nvcamerasrc ! "
+                    "video/x-raw(memory:NVMM), width=(int)2592, height=(int)1458,"
+                    "format=(string)I420, framerate=(fraction)30/1 ! "
+                    "nvvidconv ! video/x-raw, width=(int){}, height=(int){}, "
+                    "format=(string)BGRx ! videoconvert ! appsink").format(width, height)
+            self.stream = cv2.VideoCapture(gst_str, cv2.CAP_GSTREAMER)
         self.stopped = False
 
         if not self.stream.isOpened():
-            raise "Failed to open camera."
+            raise Exception("Failed to open camera.")
 
         _, self.frame = self.stream.read()
 
+
     def start(self):
-        t = Thread(target=self.update, args=())
-        t.daemon = True
-        t.start()
-        return self   
+        '''start() starts the thread'''
+        thread = Thread(target=self.update, args=())
+        thread.daemon = True
+        thread.start()
+        return self
 
     def update(self):
+        '''update() constantly read the camera stream'''
         while not self.stopped:
             _, self.frame = self.stream.read()
 
     def read(self):
-    	return self.frame
+        '''read() return the last frame captured'''
+        return self.frame
 
     def stop(self):
-	    self.stopped = True
+        '''stop() set a flag to stop the update loop'''
+        self.stopped = True
