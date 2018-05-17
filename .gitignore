@@ -111,6 +111,9 @@ ENV/
 
 # greengrass config
 Makefile.parameters
+state_*.json
+certificates.tar.gz
+certificates_*.tar.gz
 00-greengrass-configuration/*.private.key
 00-greengrass-configuration/*.cert.pem
 00-greengrass-configuration/*.public.key

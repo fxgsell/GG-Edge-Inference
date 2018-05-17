@@ -15,42 +15,53 @@ def dateconverter(o):
     if isinstance(o, datetime.datetime):
         return o.__str__()
 
-def remove_assets():
+def remove_assets(state):
     ''' Load the status and delete all ressources'''
     print("Removing assets.")
-    with open('./state.json', 'r') as f:
-        state = json.load(f)
 
-        greengrass.reset_deployments(Force=True, GroupId=state['group']['Id'])
-        greengrass.delete_group(GroupId=state['group']['Id'])
-        greengrass.delete_logger_definition(LoggerDefinitionId=state['logger']['Id'])
-        greengrass.delete_core_definition(CoreDefinitionId=state['core_definition']['Id'])
-        greengrass.delete_resource_definition(ResourceDefinitionId=state['resource']['Id'])
+    try: greengrass.reset_deployments(Force=True, GroupId=state['group']['Id'])
+    except: pass
+    try: greengrass.delete_group(GroupId=state['group']['Id'])
+    except: pass
+    try: greengrass.delete_logger_definition(LoggerDefinitionId=state['logger']['Id'])
+    except: pass
+    try: greengrass.delete_core_definition(CoreDefinitionId=state['core_definition']['Id'])
+    except: pass
+    try: greengrass.delete_resource_definition(ResourceDefinitionId=state['resource']['Id'])
+    except: pass
 
-        if 'function' in state:
-            greengrass.delete_function_definition(FunctionDefinitionId=state['function']['Id'])
-        if 'subscription' in state:
-            greengrass.delete_subscription_definition(SubscriptionDefinitionId=state['subscription']['Id'])
+    if 'function' in state:
+        try: greengrass.delete_function_definition(FunctionDefinitionId=state['function']['Id'])
+        except: pass
+    if 'subscription' in state:
+        try: greengrass.delete_subscription_definition(SubscriptionDefinitionId=state['subscription']['Id'])
+        except: pass
 
-        iot.detach_thing_principal(thingName=state['core_thing']['thingName'],
-            principal=state['keys_cert']['certificateArn'])
-        iot.update_certificate(certificateId=state['keys_cert']['certificateId'],
-            newStatus='INACTIVE')
+    try: iot.detach_thing_principal(thingName=state['core_thing']['thingName'],
+        principal=state['keys_cert']['certificateArn'])
+    except: pass
+    try: iot.update_certificate(certificateId=state['keys_cert']['certificateId'],
+        newStatus='INACTIVE')
+    except: pass
+    try: iot.detach_principal_policy(policyName=state['policy']['policyName'],
+        principal=state['keys_cert']['certificateArn'])
+    except: pass
+    try: iot.delete_certificate(certificateId=state['keys_cert']['certificateId'])
+    except: pass
 
-        iot.detach_principal_policy(policyName=state['policy']['policyName'],
-            principal=state['keys_cert']['certificateArn'])
-        iot.delete_certificate(certificateId=state['keys_cert']['certificateId'])
+    try: iot.delete_policy(policyName=state['policy']['policyName'])
+    except: pass
+    try: iot.delete_thing(thingName=state['core_thing']['thingName'])
+    except: pass
 
-        iot.delete_policy(policyName=state['policy']['policyName'])
-        iot.delete_thing(thingName=state['core_thing']['thingName'])
+    try: iam.detach_role_policy(RoleName=state['role']['Role']['RoleName'],
+        PolicyArn=state['role_policy']['Policy']['Arn'])
+    except: pass
+    try: iam.delete_policy(PolicyArn=state['role_policy']['Policy']['Arn'])
+    except: pass
+    try: iam.delete_role(RoleName=state['role']['Role']['RoleName'])
+    except: pass
 
-        iam.detach_role_policy(RoleName=state['role']['Role']['RoleName'],
-            PolicyArn=state['role_policy']['Policy']['Arn'])
-        iam.delete_policy(PolicyArn=state['role_policy']['Policy']['Arn'])
-        iam.delete_role(RoleName=state['role']['Role']['RoleName'])
-
-        f.close()
-        os.remove('./state.json') 
 
 def generate_config_package(state):
     print("Generating configuration package")
@@ -175,6 +186,7 @@ def create_group(group_name, bucket):
     )
 
     state = {
+        'id': certificate['certificateArn'][-10:],
         'role': role,
         'role_policy': role_policy,
         'group': group,
@@ -188,38 +200,36 @@ def create_group(group_name, bucket):
 
     return state
 
-def add_function(name):
-    with open('./state.json', 'r') as f:
-        state = json.load(f)
-        client = boto3.client('lambda')   
-        lambda_function = client.get_function(FunctionName=name)
-        arn = lambda_function['Configuration']['FunctionArn']+":latest"
-        function = static_config.FUNCTION_INITIAL_VERSION 
-        function['Functions'][0]['FunctionArn'] = arn
-        function['Functions'][0]['Id'] = str(uuid.uuid1())
+def add_function(name, state):
 
-        response = greengrass.create_function_definition(InitialVersion=function)
-        state['function'] = response
+    client = boto3.client('lambda')   
+    lambda_function = client.get_function(FunctionName=name)
+    arn = lambda_function['Configuration']['FunctionArn']+":latest"
+    function = static_config.FUNCTION_INITIAL_VERSION 
+    function['Functions'][0]['FunctionArn'] = arn
+    function['Functions'][0]['Id'] = str(uuid.uuid1())
 
-        subscription = static_config.SUBSCRIPTION_INITIAL_VERSION 
-        subscription['Subscriptions'][0]['Source'] = arn
-        subscription['Subscriptions'][0]['Id'] = str(uuid.uuid1())
-       
-        response = greengrass.create_subscription_definition(
-            InitialVersion=subscription
-        )
-        state['subscription'] = response
+    response = greengrass.create_function_definition(InitialVersion=function)
+    state['function'] = response
 
-        response = greengrass.create_group_version(
-            CoreDefinitionVersionArn=state['core_definition']['LatestVersionArn'],
-            FunctionDefinitionVersionArn=state['function']['LatestVersionArn'],
-            GroupId=state['group']['Id'],
-            LoggerDefinitionVersionArn=state['logger']['LatestVersionArn'],
-            ResourceDefinitionVersionArn=state['resource']['LatestVersionArn'],
-            SubscriptionDefinitionVersionArn=state['subscription']['LatestVersionArn']
-        )
-        return state
-    return None
+    subscription = static_config.SUBSCRIPTION_INITIAL_VERSION 
+    subscription['Subscriptions'][0]['Source'] = arn
+    subscription['Subscriptions'][0]['Id'] = str(uuid.uuid1())
+    
+    response = greengrass.create_subscription_definition(
+        InitialVersion=subscription
+    )
+    state['subscription'] = response
+
+    response = greengrass.create_group_version(
+        CoreDefinitionVersionArn=state['core_definition']['LatestVersionArn'],
+        FunctionDefinitionVersionArn=state['function']['LatestVersionArn'],
+        GroupId=state['group']['Id'],
+        LoggerDefinitionVersionArn=state['logger']['LatestVersionArn'],
+        ResourceDefinitionVersionArn=state['resource']['LatestVersionArn'],
+        SubscriptionDefinitionVersionArn=state['subscription']['LatestVersionArn']
+    )
+    return state
 
 def get_connectivity():
     with open('./state.json', 'r') as f:
@@ -243,36 +253,53 @@ parser.add_argument('--bucket', dest='bucket', action='store',
                    help='Specify the ML models bucket name')
 parser.add_argument('--delete-group', dest='delete_group', action='store_true',
                    default=False, 
-                   help='Delete resources in state file')
+                   help='Delete resources in the state file specified')
+parser.add_argument('--state-file', dest='state_file', action='store',
+                   help='Specify a state file')
 parser.add_argument('--ip-address', dest='ip_address', action='store_true',
                    default=False, 
                    help='Get greengrass core ip address')
 parser.add_argument('--function', dest='function_name', action='store',
-                   default='', 
                    help='Create a lambda in the group with the specified name')
 
 args = parser.parse_args()
+state = None
 
 if args.delete_group:
-    remove_assets()
+    if args.state_file is None:
+        print("Please specify a state file with --state-file.")
+        exit(1)
+    state_file = args.state_file
+    with open(state_file, 'r') as f:
+        state = json.load(f)
+        remove_assets(state)
+        os.remove(state_file) 
 elif args.ip_address:
     get_connectivity()
 elif args.group_name != "" and args.bucket == "":
     print("Please specify a bucket with --bucket BUCKET_NAME")
 elif args.group_name != "":
     state = create_group(args.group_name, args.bucket)
-    with open('./state.json', 'w') as f:
+    state_file = './state_'+state['id']+'.json'
+
+    with open(state_file, 'w') as f:
         json.dump(state, f, indent=4, default = dateconverter)
         f.close()
     generate_config_package(state)
 
-if args.function_name != "":
-    state = add_function(args.function_name)
-    if state:
-        with open('./state.json', 'w') as f:
-            json.dump(state, f, indent=4, default = dateconverter)
-            f.close()
-        ## TODO: Generate Makefile.parameters
-    else:
-        print("Cannot find state.json file")
+if args.function_name is not None:
+    if state is None and args.state_file is None:
+        print("Please specify a state file with --state-file.")
+        exit(1)
+    elif state is None:
+        state_file = args.state_file
+        with open(state_file, 'r') as f:
+            state = json.load(f)
+
+    state = add_function(args.function_name, state)
+    with open(state_file, 'w') as f:
+        json.dump(state, f, indent=4, default = dateconverter)
+        f.close()
+    ## TODO: Generate Makefile.parameters
+
     print("Resources created, install the package on your device.")

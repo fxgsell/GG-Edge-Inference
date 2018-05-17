@@ -16,6 +16,14 @@ This workshop let you use AWS Greengrass with the Nvidia Jetson TX1 to run ML mo
 
 ## Tips
 
+- I've tried to make this workshop compatible with slower devices like the Raspbery Pi, you should specify an extra environement variable to the lambda function `DEVICE=PI` to enable low performance mode and the PiCamera (it should also work for other low power devices with USB cameras).
+
+- If you run it on your own device, there are a few requirements:
+
+  - opencv-python (with GStreamer support for the Jetson)
+
+  - pip install dlib face_recognition numpy
+
 - mplayer from remote computer to view the lambda's output
 
   - `ssh DEVICE cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32`
