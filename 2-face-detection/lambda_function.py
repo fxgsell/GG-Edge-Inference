@@ -13,15 +13,13 @@ IOT_TOPIC_ADMIN = 'jetson/admin'
 GGC = greengrasssdk.client('iot-data')
 THING_NAME="Jetson-3_Core"
 FILE_OUTPUT = True
-FULL_SIZE = False
-CAMERA = ""
+FULL_SIZE = True
 
 if "DEVICE" in os.environ and os.environ['DEVICE'] == "PI":
     FULL_SIZE = False
-    CAMERA = '/dev/video0'
 
 try:
-    vs = VideoStream(CAMERA).start()
+    vs = VideoStream().start()
 except Exception as e:
     msg = "Exiting: (VideoStream:__init__) " + str(e)
     GGC.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
