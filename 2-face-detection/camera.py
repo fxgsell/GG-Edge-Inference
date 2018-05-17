@@ -12,9 +12,9 @@ class VideoStream:
             return cv2.VideoCapture(gst_str, cv2.CAP_GSTREAMER)
 
         if os.path.isfile('/dev/video1'):
-            self.stream = cv2.VideoCapture(device)
+            self.stream = cv2.VideoCapture('/dev/video1')
         elif os.path.isfile('/dev/video0'):
-            self.stream = cv2.VideoCapture(device)
+            self.stream = cv2.VideoCapture('/dev/video0')
         else:
             self.stream = open_cam_onboard(640, 480)
 
