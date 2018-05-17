@@ -1,6 +1,6 @@
 from threading import Thread
 import os
-import cv2
+import cv2 # pylint: disable=import-error
 
 class VideoStream:
     def __init__(self, device):
