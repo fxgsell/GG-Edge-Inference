@@ -1,6 +1,7 @@
 import os
 import platform
 import face_recognition
+import json
 import cv2 # pylint: disable=import-error
 from camera import VideoStream
 from file_output import FileOutput
@@ -19,8 +20,15 @@ if "FULL_SIZE" in os.environ and os.environ['FULL_SIZE'] == "0":
     FULL_SIZE = False
 
 PUB = Publisher(IOT_TOPIC_ADMIN, IOT_TOPIC)
-PUB.publish(topic=IOT_TOPIC_ADMIN, payload='Info: Loading new Thread.')
-PUB.publish(topic=IOT_TOPIC_ADMIN, payload='Info: OpenCV '+cv2.__version__)
+
+PUB.publish(topic=IOT_TOPIC_ADMIN, payload=json.dumps({
+    "type":  "info",
+    "payload": "Loading new Thread"
+}))
+PUB.publish(topic=IOT_TOPIC_ADMIN, payload=json.dumps({
+    "type":  "info",
+    "payload": 'OpenCV '+cv2.__version__
+}))
 
 def draw_box(frame, name, top, right, bottom, left):
     ''' Draw a box with a label. '''
@@ -35,8 +43,12 @@ def main_loop():
     try:
         VS = VideoStream().start()
     except Exception as err:
-        MSG = "Exiting: (VideoStream:__init__) " + str(err)
-        PUB.publish(topic=IOT_TOPIC_ADMIN, payload=MSG)
+        PUB.publish(topic=IOT_TOPIC_ADMIN, payload=json.dumps({
+            "type":  "exception",
+            "location": "VideoStream",
+            "line": 63,
+            "payload": str(err)
+        }))
         
     OUTPUT = FileOutput('/tmp/results.mjpeg', VS.read(), PUB)
     OUTPUT.start()
@@ -60,9 +72,12 @@ def main_loop():
                 try:
                     name = FACES.is_known(face_encoding)
                 except Exception as err:
-                    msg = "Exception: (is_known) "+ str(err)
-                    PUB.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
-                    print(err)
+                    PUB.publish(topic=IOT_TOPIC_ADMIN, payload=json.dumps({
+                        "type":  "exception",
+                        "location": "is_known",
+                        "line": 63,
+                        "payload": str(err)
+                    }))
                     raise err
 
                 names.append(name)
@@ -75,14 +90,21 @@ def main_loop():
 
                 frame = draw_box(frame, name, top, right, bottom, left)
 
-            msg = "Info: (main_loop) Face(s) detected: " + str(names)
-            PUB.publish(topic=IOT_TOPIC, payload=msg)
+            if names:
+                PUB.publish(topic=IOT_TOPIC, payload=json.dumps({
+                    "type":  "event",
+                    "payload": names
+                }))
 
             OUTPUT.update(frame)
 
     except Exception as err:
-        msg = "Exception: (main_loop) "+ str(err)
-        PUB.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
+        PUB.publish(topic=IOT_TOPIC_ADMIN, payload=json.dumps({
+            "type":  "exception",
+            "location": "main_loop",
+            "line": 87,
+            "payload": str(err)
+        }))
 
     OUTPUT.stop()
     VS.stop()

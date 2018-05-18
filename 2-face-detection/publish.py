@@ -1,4 +1,4 @@
-import sys
+import platform
 import greengrasssdk
 
 class Publisher:
@@ -6,7 +6,7 @@ class Publisher:
         self.admin = admin
         self.main = main
 
-        if not sys.stdout.isatty():
+        if platform.system() == 'Darwin':
             GGC = greengrasssdk.client('iot-data')
             def debug(topic=self.admin, payload=""):
                 GGC.publish(topic=topic, payload=payload)

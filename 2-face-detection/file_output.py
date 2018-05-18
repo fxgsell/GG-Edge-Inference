@@ -1,5 +1,6 @@
 from threading import Thread
 import os
+import json
 import cv2 # pylint: disable=import-error
 
 class FileOutput(Thread):
@@ -34,6 +35,12 @@ class FileOutput(Thread):
             try:
                 file.write(self.jpeg.tobytes())
             except IOError as err:
+                self.publisher(payload=json.dumps({
+                    "type":  "exception",
+                    "location": "FileOutput",
+                    "line": 36,
+                    "payload": str(err)
+                }))
                 self.publisher.publish(payload="Exception: (FileOutput:run) "+ str(err))
                 file = open(self.path, 'w')
                 continue
