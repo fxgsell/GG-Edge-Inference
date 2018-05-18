@@ -5,27 +5,22 @@ import cv2 # pylint: disable=import-error
 from camera import VideoStream
 from file_output import FileOutput
 from face_datastore import FaceDatastore
-from publish import publish
+from publish import Publisher
 
 IOT_TOPIC = 'jetson/inference'
 IOT_TOPIC_ADMIN = 'jetson/admin'
 
-THING_NAME = "Jetson-3_Core"
-FILE_OUTPUT = True
-FULL_SIZE = True
+THING_NAME = "Unknown"
+if "THING_NAME" in os.environ and os.environ['THING_NAME'] != "":
+    THING_NAME = os.environ['THING_NAME']
 
-if "DEVICE" in os.environ and os.environ['DEVICE'] == "PI":
+FULL_SIZE = True
+if "FULL_SIZE" in os.environ and os.environ['FULL_SIZE'] == "0":
     FULL_SIZE = False
 
-try:
-    VS = VideoStream().start()
-except Exception as err:
-    MSG = "Exiting: (VideoStream:__init__) " + str(err)
-    publish(topic=IOT_TOPIC_ADMIN, payload=MSG)
-    exit(MSG)
-
-publish(topic=IOT_TOPIC_ADMIN, payload='Info: Loading new Thread.')
-publish(topic=IOT_TOPIC_ADMIN, payload='Info: OpenCV '+cv2.__version__)
+PUB = Publisher(IOT_TOPIC_ADMIN, IOT_TOPIC)
+PUB.publish(topic=IOT_TOPIC_ADMIN, payload='Info: Loading new Thread.')
+PUB.publish(topic=IOT_TOPIC_ADMIN, payload='Info: OpenCV '+cv2.__version__)
 
 def draw_box(frame, name, top, right, bottom, left):
     ''' Draw a box with a label. '''
@@ -37,13 +32,17 @@ def draw_box(frame, name, top, right, bottom, left):
     return frame
 
 def main_loop():
-    if FILE_OUTPUT:
-        results = FileOutput('/tmp/results.mjpeg', VS.read())
-        results.start()
-
-    ### inference
     try:
-        faces = FaceDatastore()
+        VS = VideoStream().start()
+    except Exception as err:
+        MSG = "Exiting: (VideoStream:__init__) " + str(err)
+        PUB.publish(topic=IOT_TOPIC_ADMIN, payload=MSG)
+        
+    OUTPUT = FileOutput('/tmp/results.mjpeg', VS.read())
+    OUTPUT.start()
+
+    try:
+        FACES = FaceDatastore()
         while 42:
             frame = VS.read()
 
@@ -59,10 +58,10 @@ def main_loop():
 
             for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
                 try:
-                    name = faces.is_known(face_encoding)
+                    name = FACES.is_known(face_encoding)
                 except Exception as err:
                     msg = "Exception: (is_known) "+ str(err)
-                    publish(topic=IOT_TOPIC_ADMIN, payload=msg)
+                    PUB.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
                     print(err)
                     raise err
 
@@ -77,18 +76,15 @@ def main_loop():
                 frame = draw_box(frame, name, top, right, bottom, left)
 
             msg = "Info: (main_loop) Face(s) detected: " + str(names)
-            publish(topic=IOT_TOPIC, payload=msg)
+            PUB.publish(topic=IOT_TOPIC, payload=msg)
 
-            if FILE_OUTPUT:
-                results.update(frame)
+            OUTPUT.update(frame)
 
     except Exception as err:
         msg = "Exception: (main_loop) "+ str(err)
-        publish(topic=IOT_TOPIC_ADMIN, payload=msg)
+        PUB.publish(topic=IOT_TOPIC_ADMIN, payload=msg)
 
-    if FILE_OUTPUT:
-        results.stop()
-
+    OUTPUT.stop()
     VS.stop()
 
 main_loop()

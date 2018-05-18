@@ -21,5 +21,7 @@ publish: deploy
 	echo "Deploying to GG"
 	$(AWS_COMMAND) greengrass list-groups --query "Groups[?Name=='$(GG_GROUP)'].Id" --output text > GROUP_ID
 	$(AWS_COMMAND) greengrass list-groups --query "Groups[?Name=='$(GG_GROUP)'].LatestVersion" --output text > GROUP_VERSION
-	$(AWS_COMMAND) greengrass create-deployment --group-id `cat GROUP_ID` --deployment-type NewDeployment --group-version-id `cat GROUP_VERSION`
-	rm GROUP_ID GROUP_VERSION
+	$(AWS_COMMAND) greengrass create-deployment --group-id `cat GROUP_ID` --deployment-type NewDeployment --group-version-id `cat GROUP_VERSION` --query "DeploymentId" --output text > GROUP_DEPLOYMENT
+	$(AWS_COMMAND) greengrass get-deployment-status --group-id `cat GROUP_ID` --deployment-id `cat GROUP_DEPLOYMENT` --query "DeploymentStatus" --output text  > STATUS
+	@echo "Build in progress:" `cat STATUS`
+	rm GROUP_ID GROUP_VERSION GROUP_DEPLOYMENT STATUS

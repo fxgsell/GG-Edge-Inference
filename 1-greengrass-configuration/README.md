@@ -9,11 +9,14 @@
 1. Run `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function demo-inference`
     - Set the 3 parameters's values: a new **Group Name** and the same values that you choose in the previous steps for the **bucket** and  the **function** names.
 
-1. Upload the resulting `certificates.tar.gz` on your device.
+1. Configure your device with the `certificates.tar.gz` file.
+    - Triple-pres the button S3 or REC.
+    - If you know the IP of the device connect to it on port 80.
+    - Upload `certificates.tar.gz` and don't forget to click **Finished**.
 
-1. Go back to the console and hit Deploy in your Greengrass Group. (Choose "Automatic Detection" at the first step)
+1. Go to the AWS console and hit Deploy in your Greengrass Group (Choose "Automatic Detection" at the first step).
 
-1. Once the deployment finished you can go look in the console or run `python3 create-greengrass-config.py --ip-address` to get the IP of your device.
+1. Once the deployment finished you can go look in the console or run `python3 create-greengrass-config.py --ip-address` to get  all the IPs of your device.
 
 You're now set to start doing some ML @Edge.
 

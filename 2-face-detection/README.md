@@ -6,7 +6,7 @@
 
 1. Go in the first directory 01-face-detection.
 
-1. Run `make publish`
+1. Run `make publish`.
 
 1. After the deployment is done you can view the output with: `ssh DEVICE-IP cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32`
 

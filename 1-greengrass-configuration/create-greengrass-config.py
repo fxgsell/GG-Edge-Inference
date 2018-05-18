@@ -187,6 +187,7 @@ def create_group(group_name, bucket):
 
     state = {
         'id': certificate['certificateArn'][-10:],
+        'name': thing_name,
         'role': role,
         'role_policy': role_policy,
         'group': group,
@@ -208,6 +209,7 @@ def add_function(name, state):
     function = static_config.FUNCTION_INITIAL_VERSION 
     function['Functions'][0]['FunctionArn'] = arn
     function['Functions'][0]['Id'] = str(uuid.uuid1())
+    function['Functions'][0]['FunctionConfiguration']['Environment']['Variables']['THING_NAME'] = state['name']
 
     response = greengrass.create_function_definition(InitialVersion=function)
     state['function'] = response

@@ -128,7 +128,9 @@ FUNCTION_INITIAL_VERSION = {
                     ],
                     'AccessSysfs': True,
                     'Variables': {
-                        'MXNET_CUDNN_AUTOTUNE_DEFAULT': '0'
+                        'MXNET_CUDNN_AUTOTUNE_DEFAULT': '0',
+                        'FULL_SIZE': '1',
+                        'THING_NAME': ''
                     }
                 },
                 'Pinned': True,
