@@ -1,8 +1,8 @@
 # A first model running on Greengrass
 
-## Steps
+## Walk-through
 
-1. At the root of the repo copy `Makefile.parameters.sample` to `Makefile.parameters` and edit it with your values.
+1. At the root of the repository copy `Makefile.parameters.sample` to `Makefile.parameters` and edit it with your values.
 
 1. Go in the first directory `01-face-detection`.
 
