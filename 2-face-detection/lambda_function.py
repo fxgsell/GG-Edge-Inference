@@ -38,7 +38,7 @@ def main_loop():
         MSG = "Exiting: (VideoStream:__init__) " + str(err)
         PUB.publish(topic=IOT_TOPIC_ADMIN, payload=MSG)
         
-    OUTPUT = FileOutput('/tmp/results.mjpeg', VS.read())
+    OUTPUT = FileOutput('/tmp/results.mjpeg', VS.read(), PUB)
     OUTPUT.start()
 
     try:

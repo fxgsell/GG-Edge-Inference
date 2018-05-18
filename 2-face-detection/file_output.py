@@ -1,20 +1,20 @@
 from threading import Thread
 import os
 import cv2 # pylint: disable=import-error
-from publish import publish
 
 class FileOutput(Thread):
     '''
     File output manage an opencv frame output
     saving it to disque in mjpeg format.
     '''
-    def __init__(self, path, frame):
+    def __init__(self, path, frame, publisher):
         ''' Constructor. '''
         Thread.__init__(self)
 
         self.stopped = False
         self.path = path
         self.update(frame)
+        self.publisher = publisher
 
     def stop(self):
         '''stop() set a flag to stop the run loop'''
@@ -34,6 +34,6 @@ class FileOutput(Thread):
             try:
                 file.write(self.jpeg.tobytes())
             except IOError as err:
-                publish(payload="Exception: (FileOutput:run) "+ str(err))
+                self.publisher.publish(payload="Exception: (FileOutput:run) "+ str(err))
                 file = open(self.path, 'w')
                 continue

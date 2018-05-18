@@ -1,13 +1,13 @@
 import numpy as np
 
 class FaceDatastore:
-    def __init__(self, count=6):
+    def __init__(self, count=6, tolerance=0.6):
         ''' Constructor '''
         self.face_encodings = []
         self.face_names = []
-        self.tolerance = 0.6
-        self.seen = 0
+        self.tolerance = tolerance
         self.max_length = count
+        self.seen = 0
 
     def is_known(self, face):
         norm = np.empty((0))
