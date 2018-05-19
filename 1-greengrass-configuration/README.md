@@ -7,7 +7,7 @@
     - Create an alias `latest` pointing to `$LATEST`,
 
 1. Run `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function demo-inference`
-    - Set the 3 parameters's values: a new **Group Name** and the same values that you choose in the previous steps for the **bucket** and  the **function** names.
+    - Set the 3 parameters: a new **Group Name** and the same values that you choose in the previous steps for the **bucket** and the **function** names.
 
 1. Configure your device with the `certificates.tar.gz` file.
     - Triple-pres the button S3 or REC.

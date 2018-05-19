@@ -8,11 +8,23 @@ Now we have a very basic face detection and recognition model running on the dev
 
 ## Step-by-step
 
+- You can reuse the same lambda as in the first section, or create a new one (with the same alias latest). If you choose to create a new one you must add it to you Greengrass group with 'python3 create-greengrass-config --function <YOUR_FUNCTION>.
+
+- Create another Lambda function which will be using Rekognition to resolve the name of the faces it receive, only create it in the cloud this time.
+
 - In Amazon Rekognition create a pool of face that you need to identify.
 
 - Edit the code to crop the Faces which have not been identified yet, and send them to recognition for identification.
+    1. Send the message to a topic. 'jetson/new_faces'
+    2. Lambda subscribe to the topic.
+    3. When the lambda receive a new face.
+        - Save it in S3,
+        - Send it to Rekognition:
+            - If Rekognition knows it: Lookup the ID In DynamoDB, add the ID -> Name in the shadow of the device.
+            - Else add it to the pool, and save it in DynamoDB.
+    4. Populate the DynamoDB table with a few names.
 
-- When you get the response update the face name.
+- When you get a shadow update edit the key of the know face.
 
 After that you should see the name of the person that you configured in recognition instead of "UserXYZ".
 
@@ -20,4 +32,4 @@ After that you should see the name of the person that you configured in recognit
 
 - Crop a photo in Python with cv2 : `crop = frame[y:y+h, x:x+w]`
 
-- Create a face pool in Rekognition: 
+- Create a face pool in Rekognition:
