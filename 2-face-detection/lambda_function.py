@@ -67,7 +67,6 @@ def main_loop():
             face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
 
             names = []
-
             for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
                 try:
                     name = FACES.is_known(face_encoding)
@@ -90,11 +89,11 @@ def main_loop():
 
                 frame = draw_box(frame, name, top, right, bottom, left)
 
-            if names:
-                PUB.publish(topic=IOT_TOPIC, payload=json.dumps({
-                    "type":  "event",
-                    "payload": names
-                }))
+            PUB.publish(topic=IOT_TOPIC, payload=json.dumps({
+                "type":  "event",
+                "count": len(names),
+                "payload": names
+            }))
 
             OUTPUT.update(frame)
 

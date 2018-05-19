@@ -41,6 +41,5 @@ class FileOutput(Thread):
                     "line": 36,
                     "payload": str(err)
                 }))
-                self.publisher.publish(payload="Exception: (FileOutput:run) "+ str(err))
                 file = open(self.path, 'w')
                 continue

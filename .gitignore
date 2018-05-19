@@ -121,3 +121,4 @@ certificates_*.tar.gz
 00-greengrass-configuration/certificates
 00-greengrass-configuration/config.json
 00-greengrass-configuration/state.json
+~$*
