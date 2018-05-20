@@ -37,7 +37,7 @@ class Publisher:
 
     def events(self, data):
         self.publish(topic=self.admin, payload=json.dumps({
-            "type":  "event",
+            "type":  "events",
             "thing": self.thing,
             "count": len(data),
             "payload": data

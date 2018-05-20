@@ -22,7 +22,7 @@ THING_NAME = get_parameter('THING_NAME', "Unknown")
 FULL_SIZE = get_parameter('FULL_SIZE', '1')
 FULL_SIZE = True if FULL_SIZE == '1' else False
 
-PUB = Publisher(IOT_TOPIC_ADMIN, IOT_TOPIC)
+PUB = Publisher(IOT_TOPIC_ADMIN, IOT_TOPIC, THING_NAME)
 
 PUB.info("Loading new Thread")
 PUB.info('OpenCV '+cv2.__version__)
