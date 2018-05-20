@@ -9,6 +9,11 @@ class FaceDatastore:
         self.max_length = count
         self.seen = 0
 
+    def update_face(self, old, new):
+        for i, v in enumerate(self.face_names):
+            if v == old:
+                self.face_names[i] = new
+
     def is_known(self, face):
         norm = np.empty((0))
         best = 1
