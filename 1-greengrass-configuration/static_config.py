@@ -76,9 +76,14 @@ ROLE_POLICY = {
 SUBSCRIPTION_INITIAL_VERSION = {
     'Subscriptions': [
         {
-            'Source': 'string',
+            'Source': 'function_arn',
             'Subject': '#',
             'Target': 'cloud'
+        },
+        {
+            'Source': 'cloud',
+            'Subject': '$aws/things/THING_NAME/shadow/update/accepted',
+            'Target': 'function_arn'
         },
     ]
 }

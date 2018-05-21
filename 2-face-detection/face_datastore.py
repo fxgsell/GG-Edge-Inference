@@ -24,6 +24,7 @@ class FaceDatastore:
         if best <= self.tolerance:
             i = np.where(norm == best)
             name = self.face_names[i[0][0]]
+            return name, True
         else:
             if len(self.face_encodings) >= self.max_length:
                 self.face_encodings.pop(0)
@@ -34,4 +35,4 @@ class FaceDatastore:
 
             self.face_encodings.append(face)
             self.face_names.append(name)
-        return name
+        return name, False

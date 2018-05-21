@@ -217,6 +217,10 @@ def add_function(name, state):
     subscription = static_config.SUBSCRIPTION_INITIAL_VERSION 
     subscription['Subscriptions'][0]['Source'] = arn
     subscription['Subscriptions'][0]['Id'] = str(uuid.uuid1())
+
+    subscription['Subscriptions'][1]['Target'] = arn
+    subscription['Subscriptions'][1]['Subject'] = '$aws/things/' + state['name'] + '/shadow/update/accepted'
+    subscription['Subscriptions'][1]['Id'] = str(uuid.uuid1())
     
     response = greengrass.create_subscription_definition(
         InitialVersion=subscription

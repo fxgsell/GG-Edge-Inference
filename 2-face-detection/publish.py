@@ -11,36 +11,35 @@ class Publisher:
 
         if platform.system() != 'Darwin':
             GGC = greengrasssdk.client('iot-data')
-            def debug(topic=self.admin, payload=""):
-                GGC.publish(topic=topic, payload=payload)
+            def debug(topic=self.admin, payload={}):
+                payload['thing'] = self.thing
+                GGC.publish(topic=topic, payload=json.dumps(payload))
             self.publish = debug
         else:
-            def debug(topic=self.admin, payload=""):
-                print(topic, payload)
+            def debug(topic=self.admin, payload={}):
+                payload['thing'] = self.thing
+                print(topic, json.dumps(payload))
             self.publish = debug
 
     def exception(self, err):
-        self.publish(topic=self.admin, payload=json.dumps({
+        self.publish(topic=self.admin, payload={
             "type":  "exception",
-            "thing": self.thing,
             "location": currentframe().f_back.f_filename,
             "line": currentframe().f_back.f_lineno,
             "payload": err
-        }))
+        })
 
     def info(self, data):
-        self.publish(topic=self.admin, payload=json.dumps({
+        self.publish(topic=self.admin, payload={
             "type":  "info",
-            "thing": self.thing,
             "payload": data
-        }))
+        })
 
     def events(self, data):
-        self.publish(topic=self.admin, payload=json.dumps({
+        self.publish(topic=self.admin, payload={
             "type":  "events",
-            "thing": self.thing,
             "count": len(data),
             "payload": data
-        }))
+        })
 
 

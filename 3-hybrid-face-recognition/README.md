@@ -12,6 +12,8 @@ Now we have a very basic face detection and recognition model running on the dev
 
 - Create another Lambda function which will be using Rekognition to resolve the name of the faces it receive, only create it in the cloud this time.
 
+- Create a DynamoDB table with a primary key id of type string.
+
 - In Amazon Rekognition create a pool of face that you need to identify.
 
 - Edit the code to crop the Faces which have not been identified yet, and send them to recognition for identification.

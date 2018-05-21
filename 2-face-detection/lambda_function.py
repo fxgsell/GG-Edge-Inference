@@ -2,7 +2,8 @@ import os
 import platform
 import face_recognition
 import json
-import cv2 # pylint: disable=import-error
+import cv2
+import base64
 
 from camera import VideoStream
 from file_output import FileOutput
@@ -60,9 +61,10 @@ def main_loop():
             face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
 
             names = []
+            known = True
             for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
                 try:
-                    name = FACES.is_known(face_encoding)
+                    name, known = FACES.is_known(face_encoding)
                 except Exception as err:
                     PUB.exception(str(err))
                     raise err
@@ -75,6 +77,13 @@ def main_loop():
                     bottom *= 4
                     left *= 4
 
+                if not known:
+                    face = frame[top:bottom, left:right]
+                    _, jpeg = cv2.imencode('.jpg', face)
+                    PUB.publish({
+                        'id': name,
+                        'face': base64.b64encode(jpeg.tobytes())# add cropped photo TODO
+                    })
                 frame = draw_box(frame, name, top, right, bottom, left)
 
             PUB.events(names)
@@ -89,4 +98,5 @@ def main_loop():
 main_loop()
 
 def lambda_handler(event, context):
+    PUB.info("Received shadow update: " + json.dumps(event))
     return
