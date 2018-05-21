@@ -4,6 +4,8 @@ import face_recognition
 import json
 import cv2
 import base64
+from threading import Timer
+import uuid
 
 from camera import VideoStream
 from file_output import FileOutput
@@ -30,6 +32,12 @@ PUB.info('OpenCV '+cv2.__version__)
 
 FACES = FaceDatastore()
 
+def lambda_handler(event, context):
+    PUB.info("Received update: " + json.dumps(event))
+    for key  in  event:
+        FACES.update_face(key, event[key])
+    return
+
 def draw_box(frame, name, top, right, bottom, left):
     ''' Draw a box with a label. '''
     cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
@@ -39,64 +47,66 @@ def draw_box(frame, name, top, right, bottom, left):
     cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
     return frame
 
+try:
+    VS = VideoStream().start()
+except Exception as err:
+    PUB.exception(str(err))
+
+OUTPUT = FileOutput('/tmp/results.mjpeg', VS.read(), PUB)
+OUTPUT.start()
+
 def main_loop():
     try:
-        VS = VideoStream().start()
-    except Exception as err:
-        PUB.exception(str(err))
+        frame = VS.read()
 
-    OUTPUT = FileOutput('/tmp/results.mjpeg', VS.read(), PUB)
-    OUTPUT.start()
+        if FULL_SIZE:
+            rgb_frame = frame[:, :, ::-1]
+        else:
+            rgb_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)[:, :, ::-1]
 
-    try:
-        while 42:
-            frame = VS.read()
+        face_locations = face_recognition.face_locations(rgb_frame)
+        face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
 
-            if FULL_SIZE:
-                rgb_frame = frame[:, :, ::-1]
-            else:
-                rgb_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)[:, :, ::-1]
+        names = []
+        known = True
+        for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
+            try:
+                name, known = FACES.is_known(face_encoding)
+            except Exception as err:
+                PUB.exception(str(err))
+                raise err
 
-            face_locations = face_recognition.face_locations(rgb_frame)
-            face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
+            names.append(name)
 
-            names = []
-            known = True
-            for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
-                try:
-                    name, known = FACES.is_known(face_encoding)
-                except Exception as err:
-                    PUB.exception(str(err))
-                    raise err
+            if not FULL_SIZE:
+                top *= 4
+                right *= 4
+                bottom *= 4
+                left *= 4
 
-                names.append(name)
-
-                if not FULL_SIZE:
-                    top *= 4
-                    right *= 4
-                    bottom *= 4
-                    left *= 4
-
-                if not known:
-                    face = frame[top:bottom, left:right]
-                    _, jpeg = cv2.imencode('.jpg', face)
-                    PUB.publish({
+            if not known and bottom-top > 40:
+                face = frame[max(top - top, 0):min(bottom + bottom, VS.height()),
+                                max(left - left, 0):min(right + right, VS.width())]
+                _, jpeg = cv2.imencode('.jpg', face)
+                PUB.publish(
+                    topic="face_recognition/new",
+                    payload={
                         'id': name,
-                        'face': base64.b64encode(jpeg.tobytes())# add cropped photo TODO
+                        'uuid': str(uuid.uuid1()),
+                        'face': base64.b64encode(jpeg.tobytes())
                     })
-                frame = draw_box(frame, name, top, right, bottom, left)
 
-            PUB.events(names)
-            OUTPUT.update(frame)
+            frame = draw_box(frame, name, top, right, bottom, left)
+
+        PUB.events(names)
+        OUTPUT.update(frame)
 
     except Exception as err:
         PUB.exception(str(err))
 
-    OUTPUT.stop()
-    VS.stop()
+    Timer(0, main_loop).start()
+
+# OUTPUT.stop()
+# VS.stop()
 
 main_loop()
-
-def lambda_handler(event, context):
-    PUB.info("Received shadow update: " + json.dumps(event))
-    return

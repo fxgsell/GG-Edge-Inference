@@ -24,7 +24,7 @@ class Publisher:
     def exception(self, err):
         self.publish(topic=self.admin, payload={
             "type":  "exception",
-            "location": currentframe().f_back.f_filename,
+#            "location": currentframe().f_back.f_filename,
             "line": currentframe().f_back.f_lineno,
             "payload": err
         })
@@ -36,7 +36,10 @@ class Publisher:
         })
 
     def events(self, data):
-        self.publish(topic=self.admin, payload={
+        if len(data) == 0:
+            return
+
+        self.publish(topic=self.main, payload={
             "type":  "events",
             "count": len(data),
             "payload": data

@@ -39,6 +39,11 @@ class VideoStream:
 
         _, self.frame = self.stream.read()
 
+    def height(self):
+        return self.height
+
+    def width(self):
+        return self.width
 
     def start(self):
         '''start() starts the thread'''
