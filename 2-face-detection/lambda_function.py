@@ -51,6 +51,7 @@ try:
     VS = VideoStream().start()
 except Exception as err:
     PUB.exception(str(err))
+PUB.info('Camera is ' + VS.device)
 
 OUTPUT = FileOutput('/tmp/results.mjpeg', VS.read(), PUB)
 OUTPUT.start()
@@ -84,9 +85,13 @@ def main_loop():
                 bottom *= 4
                 left *= 4
 
-            if not known and bottom-top > 40:
-                face = frame[max(top - top, 0):min(bottom + bottom, VS.height()),
-                                max(left - left, 0):min(right + right, VS.width())]
+            height = bottom - top
+            width = right - left
+            if not known and height > 20:
+                face = frame[max(top - height/2, 0):min(bottom + height/2, VS.get_height()),
+                            max(left - width/2, 0):min(right + width/2, VS.get_width())]
+                if height < 80 or width < 80:
+                    face = cv2.resize(face, (height * 2, width * 2))
                 _, jpeg = cv2.imencode('.jpg', face)
                 PUB.publish(
                     topic="face_recognition/new",

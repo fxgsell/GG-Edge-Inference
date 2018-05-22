@@ -4,13 +4,14 @@ class FaceDatastore:
     def __init__(self, count=6, tolerance=0.6):
         ''' Constructor '''
         self.face_encodings = []
+        self.face_id = []
         self.face_names = []
         self.tolerance = tolerance
         self.max_length = count
         self.seen = 0
 
     def update_face(self, old, new):
-        for i, v in enumerate(self.face_names):
+        for i, v in enumerate(self.face_id):
             if v == old:
                 self.face_names[i] = new
 
@@ -34,5 +35,6 @@ class FaceDatastore:
             self.seen += 1
 
             self.face_encodings.append(face)
+            self.face_id.append(name)
             self.face_names.append(name)
         return name, False
