@@ -15,22 +15,29 @@ class VideoStream:
     '''
     def __init__(self):
         ''' Constructor. Chooses a camera to read from. '''
+        self.width = 640
+        self.height = 480
+        self.device = '/dev/video1'
         if platform.system() == 'Darwin':
+            self.device = 'Webcam'
             self.stream = cv2.VideoCapture(0)
-            self.stream.set(3,640)
-            self.stream.set(4,480)
+            self.stream.set(3,self.width)
+            self.stream.set(4,self.height)
         elif os.path.isfile('/dev/video1'):
+            self.device = '/dev/video1'
             self.stream = cv2.VideoCapture('/dev/video1')
         elif os.path.isfile('/dev/video0'):
+            self.device = '/dev/video0'
             self.stream = cv2.VideoCapture('/dev/video0')
         else:
-            width = 640
-            height = 480
+            self.device = 'GStreamer'
+            #self.width = 1280   
+            #self.height = 960
             gst_str = ("nvcamerasrc ! "
                     "video/x-raw(memory:NVMM), width=(int)2592, height=(int)1458,"
                     "format=(string)I420, framerate=(fraction)30/1 ! "
                     "nvvidconv ! video/x-raw, width=(int){}, height=(int){}, "
-                    "format=(string)BGRx ! videoconvert ! appsink").format(width, height)
+                    "format=(string)BGRx ! videoconvert ! appsink").format(self.width, self.height)
             self.stream = cv2.VideoCapture(gst_str, cv2.CAP_GSTREAMER)
         self.stopped = False
 
@@ -39,10 +46,10 @@ class VideoStream:
 
         _, self.frame = self.stream.read()
 
-    def height(self):
+    def get_height(self):
         return self.height
 
-    def width(self):
+    def get_width(self):
         return self.width
 
     def start(self):
