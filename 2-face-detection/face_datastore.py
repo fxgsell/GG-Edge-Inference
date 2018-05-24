@@ -1,10 +1,14 @@
 import numpy as np
+import time
+
+TIMEOUT = 60
 
 class FaceDatastore:
     def __init__(self, count=6, tolerance=0.6):
         ''' Constructor '''
         self.face_encodings = []
         self.face_id = []
+        self.face_time = []
         self.face_names = []
         self.tolerance = tolerance
         self.max_length = count
@@ -23,9 +27,11 @@ class FaceDatastore:
             best = norm.min()
  
         if best <= self.tolerance:
-            i = np.where(norm == best)
-            name = self.face_names[i[0][0]]
-            return name, True
+            id = np.where(norm == best)[0][0]
+            name = self.face_names[id]
+            if self.face_id[id] != name or self.face_time[id] < time.time():
+                return name, True
+            self.face_time[id] = time.time() + TIMEOUT
         else:
             if len(self.face_encodings) >= self.max_length:
                 self.face_encodings.pop(0)
@@ -37,4 +43,5 @@ class FaceDatastore:
             self.face_encodings.append(face)
             self.face_id.append(name)
             self.face_names.append(name)
+            self.face_time.append(time.time() + TIMEOUT)
         return name, False

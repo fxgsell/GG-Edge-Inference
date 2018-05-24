@@ -164,6 +164,9 @@ CONFIG_FILE = {
         "useSystemd" : "yes"
         }
     },
+    "system": {
+        "shadowSyncTimeout": 10
+    },
     "managedRespawn" : False
 }
 

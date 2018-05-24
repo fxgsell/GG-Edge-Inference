@@ -87,7 +87,7 @@ def main_loop():
 
             height = bottom - top
             width = right - left
-            if not known and height > 20:
+            if not known and height > 40 and width > 40:
                 face = frame[max(top - height/2, 0):min(bottom + height/2, VS.get_height()),
                             max(left - width/2, 0):min(right + width/2, VS.get_width())]
                 if height < 80 or width < 80:
