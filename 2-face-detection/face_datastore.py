@@ -15,7 +15,7 @@ class FaceDatastore:
         self.seen = 0
 
     def update_face(self, old, new):
-        for i, v in enumerate(self.face_id):
+        for i, v in enumerate(self.face_names):
             if v == old:
                 self.face_names[i] = new
 
@@ -25,17 +25,22 @@ class FaceDatastore:
         if self.face_encodings:
             norm = np.linalg.norm(self.face_encodings - face, axis=1)
             best = norm.min()
- 
+
         if best <= self.tolerance:
             id = np.where(norm == best)[0][0]
             name = self.face_names[id]
-            if self.face_id[id] != name or self.face_time[id] < time.time():
+
+            if self.face_id[id] != name:
                 return name, True
-            self.face_time[id] = time.time() + TIMEOUT
+            elif (self.face_time[id] + TIMEOUT) > int(time.time()):
+                return name, True
+            self.face_time[id] = int(time.time())
         else:
             if len(self.face_encodings) >= self.max_length:
                 self.face_encodings.pop(0)
                 self.face_names.pop(0)
+                self.face_id.pop(0)
+                self.face_time.pop(0)
 
             name = "New"+str(self.seen)
             self.seen += 1
@@ -43,5 +48,5 @@ class FaceDatastore:
             self.face_encodings.append(face)
             self.face_id.append(name)
             self.face_names.append(name)
-            self.face_time.append(time.time() + TIMEOUT)
+            self.face_time.append(int(time.time()))
         return name, False

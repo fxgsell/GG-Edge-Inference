@@ -6,6 +6,8 @@ import cv2
 import base64
 from threading import Timer
 import uuid
+import time
+import imutils
 
 from camera import VideoStream
 from file_output import FileOutput
@@ -25,6 +27,8 @@ THING_NAME = get_parameter('THING_NAME', "Unknown")
 FULL_SIZE = get_parameter('FULL_SIZE', '1')
 FULL_SIZE = True if FULL_SIZE == '1' else False
 
+FULL_SIZE = False
+
 PUB = Publisher(IOT_TOPIC_ADMIN, IOT_TOPIC, THING_NAME)
 
 PUB.info("Loading new Thread")
@@ -33,8 +37,8 @@ PUB.info('OpenCV '+cv2.__version__)
 FACES = FaceDatastore()
 
 def lambda_handler(event, context):
-    PUB.info("Received update: " + json.dumps(event))
     for key  in  event:
+        PUB.info("Update: " + key + ":" + event[key])
         FACES.update_face(key, event[key])
     return
 
@@ -85,21 +89,27 @@ def main_loop():
                 bottom *= 4
                 left *= 4
 
-            height = bottom - top
-            width = right - left
-            if not known and height > 40 and width > 40:
-                face = frame[max(top - height/2, 0):min(bottom + height/2, VS.get_height()),
-                            max(left - width/2, 0):min(right + width/2, VS.get_width())]
-                if height < 80 or width < 80:
-                    face = cv2.resize(face, (height * 2, width * 2))
-                _, jpeg = cv2.imencode('.jpg', face)
-                PUB.publish(
-                    topic="face_recognition/new",
-                    payload={
-                        'id': name,
-                        'uuid': str(uuid.uuid1()),
-                        'face': base64.b64encode(jpeg.tobytes())
-                    })
+            if not known:
+                height = bottom - top
+                width = right - left
+                if height > 40 and width > 40:
+                    face = frame[max(top - height/2, 0):min(bottom + height/2, VS.get_height()),
+                                max(left - width/2, 0):min(right + width/2, VS.get_width())]
+                    if height > width:
+                        face = imutils.resize(face, width=128)
+                    else:
+                        face = imutils.resize(face, height=128)
+
+                    _, jpeg = cv2.imencode('.jpg', face)
+                    PUB.publish(
+                        topic="face_recognition/new",
+                        payload={
+                            'id': name,
+                            'uuid': time.time(),
+                            'face': base64.b64encode(jpeg.tobytes())
+                        })
+                else:
+                    PUB.info("Face too small: " + name)
 
             frame = draw_box(frame, name, top, right, bottom, left)
 

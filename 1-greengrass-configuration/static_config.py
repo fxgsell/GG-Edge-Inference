@@ -76,19 +76,29 @@ ROLE_POLICY = {
 SUBSCRIPTION_INITIAL_VERSION = {
     'Subscriptions': [
         {
+            'Source': 'cloud',
+            'Subject': 'face_recognition/match/THING_NAME',
+            'Target': 'function_arn'
+        },
+        {
             'Source': 'function_arn',
-            'Subject': '#',
+            'Subject': 'jetson/admin',
             'Target': 'cloud'
         },
         {
-            'Source': 'cloud',
-            'Subject': '$aws/things/THING_NAME/shadow/update/accepted',
-            'Target': 'function_arn'
+            'Source': 'function_arn',
+            'Subject': 'face_recognition/new',
+            'Target': 'cloud'
         },
+        {
+            'Source': 'function_arn',
+            'Subject': 'jetson/inference',
+            'Target': 'cloud'
+        }
     ]
 }
 
-FUNCTION_INITIAL_VERSION = {
+FUNCTION_FACE_INITIAL_VERSION = {
     'Functions': [
         {
             'FunctionConfiguration': {
