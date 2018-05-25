@@ -31,13 +31,13 @@ class VideoStream:
             self.stream = cv2.VideoCapture('/dev/video0')
         else:
             self.device = 'GStreamer'
-            HD = False
-            if not HD:
-                self.width = 1296  #324
-                self.height = 972  #243
-            else:
+            HD_2K = False
+            if HD_2K:
                 self.width = 2592  #648
                 self.height = 1944 #486
+            else:
+                self.width = 1296  #324
+                self.height = 972  #243
             
             gst_str = ("nvcamerasrc ! "
                     "video/x-raw(memory:NVMM), width=(int)2592, height=(int)1944,"
