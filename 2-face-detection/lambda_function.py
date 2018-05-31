@@ -101,11 +101,12 @@ def main_loop():
                         face = imutils.resize(face, height=128)
 
                     _, jpeg = cv2.imencode('.jpg', face)
+                    now = time.time()
                     PUB.publish(
                         topic="face_recognition/new",
                         payload={
                             'id': name,
-                            'uuid': time.time(),
+                            'uuid': now,
                             'face': base64.b64encode(jpeg.tobytes())
                         })
                 else:

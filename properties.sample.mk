@@ -1,8 +1,9 @@
+# General
 REGION=us-east-1
 PROFILE=default
-GG_GROUP=WORKSHOP_JETSON
 LAMBDA_ALIAS=latest
-LAMBDA_FUNCTION=demo-inference
 AWS_COMMAND=aws --profile $(PROFILE) --region $(REGION)
 
-
+# Edit values bellow
+GG_GROUP=JETSON
+BUCKET=my-bucket

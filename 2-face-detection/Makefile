@@ -1,4 +1,4 @@
-include ../Makefile.parameters
+include ../properties.mk
 
 GG_DEPS=greengrass_common  greengrass_ipc_python_sdk  greengrasssdk
 DEPS=

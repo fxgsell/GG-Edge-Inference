@@ -12,7 +12,7 @@
 
 1. In the console subscribe to the topic `face_recognition/#`, it will show you everything going on with the device.
 
-1. Post a message to the `face_rekognition/match/DEVICE_NAME` with content `{"OLD_NAME": "NEW_NAME"}`.
+1. Post a message to the `face_recognition/match/DEVICE_NAME` with content `{"OLD_NAME": "NEW_NAME"}`.
 
 **There is currently an issue with this function that makes it freeze for around 30 seconds the first time it sees a face, however this only happens once.**
 

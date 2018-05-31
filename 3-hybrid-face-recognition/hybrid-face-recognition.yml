@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: A lambda function and DynamoDB table to maintain a list of faces and names.  
+
+Parameters: 
+  BucketName: 
+    Type: String
+    AllowedPattern : ".+"
+Resources:
+  FaceRecognition:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python2.7
+      CodeUri: ./function/hybrid-face-recognition.zip
+      Policies:
+        - DynamoDBCrudPolicy:
+              TableName:
+                Ref: "Faces"
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - 's3:GetObject'
+                - 's3:PutObject'
+              Resource: 'arn:aws:s3:::*'
+            - Effect: Allow
+              Action:
+                - 'rekognition:SearchFacesByImage'
+                - 'rekognition:CreateCollection'
+                - 'rekognition:IndexFaces'
+                - 'rekognition:ListCollections'
+              Resource: '*'
+            - Effect: Allow
+              Action:
+                - 'iot:Connect'
+                - 'iot:Publish'
+              Resource: '*'
+      Environment:
+        Variables:
+          TABLE_NAME: 
+            Ref: Faces
+          BUCKET:
+            Ref: BucketName
+          COLLECTION: "hybrid-face-recognition"
+      Timeout: 120
+      Events: 
+        IoT: 
+          Type: IoTRule
+          Properties: 
+            AwsIotSqlVersion: 2016-03-23
+            Sql: "SELECT * FROM 'face_recognition/new'"
+  Faces:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"

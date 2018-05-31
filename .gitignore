@@ -110,7 +110,9 @@ ENV/
 
 
 # greengrass config
-Makefile.parameters
+*.zip
+*-release.yml
+properties.mk
 state_*.json
 certificates.tar.gz
 certificates_*.tar.gz

@@ -28,7 +28,6 @@ def lambda_handler(event, context):
     thing = event['thing']
 
     file_name = 'face-'+time.strftime("%Y%m%d-%H%M%S")+'.jpg'
-    print('s3://' + BUCKET + '/' + file_name)
     response = s3.put_object(Body=face, Bucket=BUCKET, Key=file_name)
     response = rekognition.search_faces_by_image(
 		Image={
@@ -48,15 +47,6 @@ def lambda_handler(event, context):
                 best = match
         
         face_id = best['Face']['FaceId']
-        response = table.get_item(
-            Key={
-                    'id': face_id
-                }
-        )
-        if response['Item'] and 'name' in response['Item']:
-            name = response['Item']['name']
-        else:
-            name = face_id[-5:]
     else:
         response = rekognition.index_faces(
             Image={
@@ -68,9 +58,24 @@ def lambda_handler(event, context):
             CollectionId=COLLECTION
         )
         face_id = response['FaceRecords'][0]['Face']['FaceId']
+        
+    response = table.get_item(
+        Key={
+            'id': face_id
+        }
+    )
+    
+    try:
+        name = response['Item']['name'] 
+    except KeyError:
+        name = ""
+
+    if name == "":
+        link = 's3://' + BUCKET + '/' + file_name
         table.put_item(
             Item={
                     'id': face_id,
+                    'link': link,
                 }
         )
         print("Indexing new face: ", face_id)
