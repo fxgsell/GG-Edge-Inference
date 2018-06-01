@@ -1,6 +1,6 @@
 # GG-Edge-Inference
 
-This workshop let you use AWS Greengrass with the Nvidia Jetson TX1 to run ML models prepared with Amazon SageMaker.
+This workshop let you use AWS Greengrass with the Nvidia Jetson TX2 to run ML models prepared with Amazon SageMaker.
 
 ## Workshop Prerequisites
 
