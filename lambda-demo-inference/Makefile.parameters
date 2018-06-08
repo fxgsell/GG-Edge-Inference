@@ -1,8 +1,0 @@
-REGION=us-east-1
-PROFILE=default
-GG_GROUP=Koala
-LAMBDA_ALIAS=latest
-LAMBDA_FUNCTION=demo-inference
-AWS_COMMAND=aws --profile $(PROFILE) --region $(REGION)
-
-

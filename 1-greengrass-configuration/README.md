@@ -4,6 +4,7 @@ This lab will guide the user through
 - TODO
 
 ## Setup AWS resources
+
 1. Create a new S3 bucket in region `us-east-1` for this workshop, this bucket will be used to host your ML models
 1. Create a new AWS Lambda, this function will be used for inference:
     - Choose `ml-edge-workshop-lab-1` as the function name
@@ -12,7 +13,7 @@ This lab will guide the user through
 
 ## Creating
 
-TODO: evaluate use of Cloud9 instead of desktop/laptop
+1. Setup Cloud9 environment
 
 1. From your desktop/laptop, run `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function ml-edge-workshop-lab-1`
     - Set the 3 parameters: a new **Group Name** and the same values that you choose in the previous steps for the **bucket** and the **function** names.
