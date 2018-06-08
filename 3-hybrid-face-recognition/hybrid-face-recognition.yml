@@ -44,7 +44,7 @@ Resources:
             Ref: BucketName
           COLLECTION: "hybrid-face-recognition"
       Timeout: 120
-      Events: 
+      Events:
         IoT: 
           Type: IoTRule
           Properties: 
