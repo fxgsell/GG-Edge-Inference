@@ -206,7 +206,7 @@ def add_function(name, state):
     client = boto3.client('lambda')   
     lambda_function = client.get_function(FunctionName=name)
     arn = lambda_function['Configuration']['FunctionArn']+":latest"
-    function = static_config.FUNCTION_INITIAL_VERSION 
+    function = static_config.FUNCTION_FACE_INITIAL_VERSION 
     function['Functions'][0]['FunctionArn'] = arn
     function['Functions'][0]['Id'] = str(uuid.uuid1())
     function['Functions'][0]['FunctionConfiguration']['Environment']['Variables']['THING_NAME'] = state['name']
