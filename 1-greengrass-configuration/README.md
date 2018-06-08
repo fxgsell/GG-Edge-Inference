@@ -13,9 +13,38 @@ This lab will guide the user through
 
 ## Creating
 
-1. Setup Cloud9 environment
+Amazon Cloud9 is a web-based IDE -- we will use it to configure the Greengrass settings for the target device.
 
-1. From your desktop/laptop, run `python3 create-greengrass-config.py --create-group GG-ML-Workshop --bucket my-greengrass-models --function ml-edge-workshop-lab-1`
+1. From the AWS console, go to the [Amazon Cloud9](https://console.aws.amazon.com/cloud9/home?region=us-east-1) console and select the **Create Environment** button to fill in the following information:
+    1. Step 1: Name environment
+        - *Environment name*: `ml-edge-workshop-lab-1` 
+        - *Description*: <blank>
+        - Click **Next Step** to proceed
+    1. Step 2: Configure settings
+        - Leave the defaults, and click **Next Step** to proceed
+    1. Step 3: Review
+        - Click **Create Environment** to finish and begin IDE environment creation
+   If successfully, you should now be in your new Cloud9 environment. We will now clone this git repository so we have access to this and other labs throughout the remainder of the workshop.
+
+1. From the Getting Started panel on the right of the IDE, select **Clone Git Repository** and provide the URL of this repository (ie. https://github.com/zukoo/GG-Edge-Inference):
+```
+git clone https://github.com/zukoo/GG-Edge-Inference
+```
+
+1. We will now switch to the directory for Lab 1 content and perform some necessary setup of our environment before we begin:
+```
+cd GG-Edge-Inference/
+cd 1-greengrass-configuration/
+export PATH=/opt/c9/python3/bin:$PATH
+pip3 install boto3
+```
+
+1. Within this directory, we will use the `create-greengrass-config.py` script to generate the necessary groups for publishing our Greengrass function:
+
+```
+python3 create-greengrass-config.py --create-group ml-edge-workshop --bucket ml-edge-workshop-lab-1 --function ml-edge-workshop-lab-1
+```
+    
     - Set the 3 parameters: a new **Group Name** and the same values that you choose in the previous steps for the **bucket** and the **function** names.
 
 1. Configure your device with the `certificates.tar.gz` file.
