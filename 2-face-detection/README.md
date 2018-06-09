@@ -28,7 +28,8 @@ cp ../properties{.sample,}.mk
 
     - REGION: should match your AWS region (default is *us-east-1*)
     - BUCKET: should match the Amazon S3 bucket you created as part of the workshop setup
-    - GG_GROUP: should match the name of the AWS Greengrass group you created during [Part 1](../1-greengrass-configuration).
+    - GG_GROUP: should match the name of the AWS Greengrass group you created during [Lab 1](../1-greengrass-configuration) (default is *ml-edge-workshop*)
+    - LAMBDA_FUNCTION: should match the name of the AWS Lambda function you created during [Lab 1](../1-greengrass-configuration) (default is *ml-edge-workshop-lab-1*)
 
 1. Once you have edited the file to match your own configuration requirements, we can now run the `make` command in the current path. This will execute a make operation against the `Makefile` in the current path, which references the `properties.mk` file in the parent path.
 

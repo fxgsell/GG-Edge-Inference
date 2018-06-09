@@ -7,3 +7,4 @@ AWS_COMMAND=aws --profile $(PROFILE) --region $(REGION)
 REGION=us-east-1
 GG_GROUP=ml-edge-workshop
 BUCKET=my-bucket
+LAMBDA_FUNCTION=ml-edge-workshop-lab-1
