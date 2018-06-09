@@ -42,6 +42,18 @@ cp ../properties{.sample,}.mk
 ## Confirming Deployment to Device
 1. Check the AWS IoT Console to see the status of your deployment:
 ![Checking GG deployment](./images/gg_deploy_failure.png)
+1. Fortunately, Greengrass is super-secure, so we will need to perform some manual steps to confirm that Greengrass service can connect to the other required services. First, we click the **Actions** button, and select **Deploy** as shown below:
+![Fixing GG deployment](./images/gg_deploy_failure_1.png)
+1. Next, we will choose to grant permissions to Greengrass by clicking **Grant permission** (shown below):
+![Granting GG permisssion](./images/gg_deploy_failure_2.png)
+1. Now we should see a different "Failed" message (as shown below)...
+![Checking GG deployment](./images/gg_deploy_failure_3.png)
+1. Now, we can return to our shell and run the previous `make` command once again, which will now be shown as **In Progress** when we refresh the GG console:
+![Checking GG deployment](./images/gg_deploy_failure_4.png)
+1. We will need to wait a bit for the deployment to be successful.
+
+TODO: can the above be automated via [](https://docs.aws.amazon.com/greengrass/latest/apireference/associateserviceroletoaccount-put.html)?
+
 
 ## Bonus L33T Tricks (Local Users with Linux/Mac and mplayer installed)
 
