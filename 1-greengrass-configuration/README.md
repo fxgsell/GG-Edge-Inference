@@ -3,19 +3,35 @@
 This lab will guide the user through 
 - TODO
 
-## Setup AWS resources
+## Setup your Amazon S3 bucket
 
-1. Create a new S3 bucket in region `us-east-1` for this workshop, this bucket will be used to host your ML models
+As a part of this workshop, we will create an Amazon S3 bucket which will be used to later host your machine learning (ML) models that will be deployed to your device using AWS Greengrass.
+
+1. Using the AWS console, select your target region in the upper left corner. For this workshop material, we consider `us-east-1` to be the default. While other regions can be used, be sure all the necessary services are available in the target region and that all workshop resources, including this bucket, share the same region. 
+1. Select the S3 service from the AWS console.
+1. Create a new S3 bucket, entering a unique name.
+> Note: Amazon S3 buckets require a globally unique name to be created, regardless of the region where they are hosted, and also have some restrictions on naming.
+1. Select the remainder of the options as default -- ie., click the Next button three times until the process is complete and your new bucket is created.
+
+## Setup your AWS Lambda Function
+
+We will first create an AWS Lambda function that will be run later on the device using AWS Greengrass. Our first pass for this function is just an empty Hello World function, but we will update its code later during the next Lab.
+
 1. Create a new AWS Lambda, this function will be used for inference:
     - Choose `ml-edge-workshop-lab-1` as the function name
     - Choose `Python 2.7` as the runtime,
-    - Create an alias `latest` pointing to `$LATEST`
+1. After creating your new Lambda function, we need to assign an alias pointing to `$LATEST`
+    - First, select your new Lambda function and click the **Action** button, and select **Create Alias** from the drop-down menu as shown: ![Lambda Create Alias](./images/lambda_create_alias.png)
+    - Next, fill in the **Name** field with the word **latest** and select the **Version** of **\$LATEST** as shown here, then click the **Create** button ![Lambda Create Alias](./images/lambda_create_alias_1.png)
+    - If successful, you should see the following:
+    ![Lambda Create Alias](./images/lambda_create_alias_2.png)
+    - You can now continue to the next section
 
 ## Creating your Cloud9 Environment (optional)
 
 Amazon Cloud9 is a web-based IDE -- we will use it to configure the Greengrass settings for the target device and execute different AWS commands. 
 
-> **Alternatively, you can simply clone this repository and run from your own computer (assuming that you have Python3 and boto3 correctly installed and user permissions are sufficient to execute on your AWS account). If so, please go directly to [Clone Workshop Content - Local]()**
+> **Alternatively, you can simply clone this repository and run from your own computer (assuming that you have Python3 and boto3 correctly installed and user permissions are sufficient to execute on your AWS account). If so, please go directly to [Clone Workshop Content - Local](#clone-workshop-content---local)**
 
 1. From the AWS console, go to the [Amazon Cloud9](https://console.aws.amazon.com/cloud9/home?region=us-east-1) console and select the **Create Environment** button to fill in the following information:
     1. Step 1: Name environment
