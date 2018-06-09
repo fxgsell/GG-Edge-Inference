@@ -2,7 +2,7 @@ include ../properties.mk
 
 GG_DEPS=greengrass_common  greengrass_ipc_python_sdk  greengrasssdk
 DEPS=
-
+STATUS=$(AWS_COMMAND) greengrass get-deployment-status --group-id `cat GROUP_ID` --deployment-id `cat GROUP_DEPLOYMENT` --query "DeploymentStatus" --output text
 all: publish
 
 build:
@@ -24,4 +24,6 @@ publish: deploy
 	$(AWS_COMMAND) greengrass create-deployment --group-id `cat GROUP_ID` --deployment-type NewDeployment --group-version-id `cat GROUP_VERSION` --query "DeploymentId" --output text > GROUP_DEPLOYMENT
 	$(AWS_COMMAND) greengrass get-deployment-status --group-id `cat GROUP_ID` --deployment-id `cat GROUP_DEPLOYMENT` --query "DeploymentStatus" --output text  > STATUS
 	@echo "Build in progress:" `cat STATUS`
+	until $(STATUS) | tee STATUS | grep -w -v -m 1 "Building\|InProgress"; do sleep 1 ; done
+    @echo "Finished:" `cat STATUS`
 	rm GROUP_ID GROUP_VERSION GROUP_DEPLOYMENT STATUS
