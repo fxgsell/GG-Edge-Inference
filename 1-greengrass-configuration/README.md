@@ -131,16 +131,10 @@ We will now install the AWS IoT certificates that we just created onto your loca
 ![Jetson TX2 web config](./images/jetson_restart.png)
 
 ## AWS IoT Connection
-Now that the certificates are properly installed, we will attempt to confirm via the AWS CLI:
+Now that the certificates are properly installed, we will attempt to confirm via the AWS Console:
 
-1. Enter the following into the shell, either on Cloud9 or locally:
-```
-aws greengrass list-groups
-```
-You should then see the following:
-![aws greengrass list-groups](./images/cli_iot_get_groups.png)
-
-TODO: ADD TESTING TO CONFIRM DEVICE CONNECTIVITY
+1. From the AWS console, select IoT Core. We should see the AWS IoT Monitoring console as shown below, with a dot on the graph indicating a successful connection to our device.
+![AWS IoT Core Monitor Success](./images/iot_monitor_success.png)
 
 ### You're now set to start doing some ML@Edge! Proceed to Lab 2
 
