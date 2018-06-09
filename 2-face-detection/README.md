@@ -35,9 +35,15 @@ cp ../properties{.sample,}.mk
 
 
 
-1. Go in the first directory `1-face-detection`.
+1. Go in the first directory `2-face-detection`.
 
-1. Run `make`.
+1. Run `make`. This will package, then deploy, the new Lambda function and all the required libraries to perform face detection on your device.
+
+## Confirming Deployment to Device
+1. Check the AWS IoT Console to see the status of your deployment:
+![Checking GG deployment](./images/gg_deploy_failure.png)
+
+## Bonus L33T Tricks (Local Users with Linux/Mac and mplayer installed)
 
 1. After the deployment is done you can view the output with: `ssh <DEVICE-IP> cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32`
 
