@@ -243,8 +243,8 @@ def add_function(name, state):
     )
     return state
 
-def get_connectivity():
-    with open('./state.json', 'r') as f:
+def get_connectivity(state_file):
+    with open(state_file, 'r') as f:
         state = json.load(f)
         response = greengrass.get_connectivity_info(ThingName=state['core_thing']['thingName'])
         response.pop('ResponseMetadata', None)
@@ -252,7 +252,8 @@ def get_connectivity():
             ip = val['HostAddress']
             if ":" not in ip and ip != '127.0.0.1':
                 print(val['HostAddress'])
-            
+        return
+    print("Please specify a valid state file with --state-file FILE_NAME.")            
 
 ### ENTRY POINT ###
 
@@ -279,7 +280,7 @@ state = None
 
 if args.delete_group:
     if args.state_file is None:
-        print("Please specify a state file with --state-file.")
+        print("Please specify a state file with --state-file FILE_NAME.")
         exit(1)
     state_file = args.state_file
     with open(state_file, 'r') as f:
@@ -287,13 +288,12 @@ if args.delete_group:
         remove_assets(state)
         os.remove(state_file) 
 elif args.ip_address:
-    get_connectivity()
+    get_connectivity(args.state_file)
 elif args.group_name != "" and args.bucket == "":
     print("Please specify a bucket with --bucket BUCKET_NAME")
 elif args.group_name != "":
     state = create_group(args.group_name, args.bucket)
     state_file = './state_'+state['id']+'.json'
-
     with open(state_file, 'w') as f:
         json.dump(state, f, indent=4, default = dateconverter)
         f.close()
