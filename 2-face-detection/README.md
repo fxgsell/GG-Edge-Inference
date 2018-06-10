@@ -47,7 +47,7 @@ cp ../properties{.sample,}.mk
     - `face_recognition/match/DEVICE_NAME`: used to update the name of a face in a device.
 
     You can also use the symbol `#` to use as a wildcard for example `face_recognition/#`.
-1. To rename a user: post a message to the `c/match/DEVICE_NAME` with content `{"OLD_NAME": "NEW_NAME"}` where for example OLD_NAME would be "New0" and NEW_NAME is your name.
+1. To rename a user: post a message to the `face_recognition/match/DEVICE_NAME` with content `{"OLD_NAME": "NEW_NAME"}` where for example OLD_NAME would be "New0" and NEW_NAME is your name.
 
 ### Bonus L33T Trick (Local Users with Linux/Mac and mplayer installed)
 
