@@ -6,13 +6,14 @@ We will now deploy our first machine learning model to the device using Greengra
 
 If at the root of the repository, run the following commands to switch to the current path for the lab files by running the following in your shell:
 
-```
+```bash
 cd GG-Edge-Inference
 cd 2-face-detection
 ```
 
 > Also, if you are running this lab on Cloud9, make sure that your PATH is correct. You can do so by running the following command -- **this is not necessary or even recommended if you are running on your own local machine**:
-```
+
+```bash
 export PATH=/opt/c9/python3/bin:$PATH
 ```
 
@@ -20,7 +21,7 @@ export PATH=/opt/c9/python3/bin:$PATH
 
 1. At the root of the workshop repository path -- ie. the parent directory of this lab -- there is a file called `properties.sample.mk`. We will be copying this sample file for our lab by running the following command in your shell (assuming that you are in the current lab path):
 
-```
+```bash
 cp ../properties{.sample,}.mk
 ```
 
@@ -40,7 +41,7 @@ cp ../properties{.sample,}.mk
 ## See the results
 
 1. In the IOT console, got to the "Test" section.
-1. Subscribe to the topic `face_recognition/inference`, it will show you who the device sees. There are more topics avaliable:
+1. Subscribe to the topic `face_recognition/inference`, it will show you who the device sees. There are more topics available:
     - `face_recognition/inference`: the faces it sees, NewX where X is an increment.
     - `face_recognition/admin`: some info messages or errors if there is.
     - `face_recognition/new`: where the device posts faces it doesn't know (Base64 encoded jpeg).
