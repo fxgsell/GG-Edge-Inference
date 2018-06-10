@@ -30,14 +30,6 @@ We will first create an AWS Lambda function that will be run later on the device
         ![Lambda Create Alias](./images/lambda_create_alias_2.png)
     - You can now continue to the next section
 
-## Clone Workshop Content - Local
-
-1. Clone the workshop content to a local directory:
-    ```bash
-    cd <your preferred scratch directory location>
-    git clone https://github.com/zukoo/GG-Edge-Inference
-    ```
-
 ### Congratulations! We are now ready to begin Lab 1 activities in your local environment
 
 ## Lab 1 Activities

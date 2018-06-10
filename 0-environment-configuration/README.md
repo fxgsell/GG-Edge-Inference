@@ -67,4 +67,12 @@ Your Cloud9 development environment is a running EC2 instance in your region and
     Your responses should look like the following, with your chosen region for the third prompt:
     ![Cloud9 Set AWS Region](./images/cloud9_region.png)
 
+## Clone Workshop Content - Local
+
+1. Clone the workshop content to a local directory:
+    ```bash
+    cd <your preferred scratch directory location>
+    git clone https://github.com/zukoo/GG-Edge-Inference
+    ```
+
 ### Congratulations! We are now ready to begin Lab 1 activities on your Cloud9 environment
