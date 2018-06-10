@@ -33,8 +33,6 @@ cp ../properties{.sample,}.mk
 
 1. Once you have edited the file to match your own configuration requirements, we can now run the `make` command in the current path. This will execute a make operation against the `Makefile` in the current path, which references the `properties.mk` file in the parent path.
 
-
-
 1. Go in the first directory `2-face-detection`.
 
 1. Run `make`. This will package, then deploy, the new Lambda function and all the required libraries to perform face detection on your device.
