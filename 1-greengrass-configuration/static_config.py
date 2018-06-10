@@ -82,7 +82,7 @@ SUBSCRIPTION_INITIAL_VERSION = {
         },
         {
             'Source': 'function_arn',
-            'Subject': 'jetson/admin',
+            'Subject': 'face_recognition/admin',
             'Target': 'cloud'
         },
         {
@@ -92,7 +92,7 @@ SUBSCRIPTION_INITIAL_VERSION = {
         },
         {
             'Source': 'function_arn',
-            'Subject': 'jetson/inference',
+            'Subject': 'face_recognition/inference',
             'Target': 'cloud'
         }
     ]

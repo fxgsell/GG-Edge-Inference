@@ -37,13 +37,21 @@ cp ../properties{.sample,}.mk
 
 1. Run `make`. This will package, then deploy, the new Lambda function and all the required libraries to perform face detection on your device.
 
-## Bonus L33T Tricks (Local Users with Linux/Mac and mplayer installed)
+## See the results
+
+1. In the IOT console, got to the "Test" section.
+1. Subscribe to the topic `face_recognition/inference`, it will show you who the device sees. There are more topics avaliable:
+    - `face_recognition/inference`: the faces it sees, NewX where X is an increment.
+    - `face_recognition/admin`: some info messages or errors if there is.
+    - `face_recognition/new`: where the device posts faces it doesn't know (Base64 encoded jpeg).
+    - `face_recognition/match/DEVICE_NAME`: used to update the name of a face in a device.
+
+    You can also use the symbol `#` to use as a wildcard for example `face_recognition/#`.
+1. To rename a user: post a message to the `c/match/DEVICE_NAME` with content `{"OLD_NAME": "NEW_NAME"}` where for example OLD_NAME would be "New0" and NEW_NAME is your name.
+
+### Bonus L33T Trick (Local Users with Linux/Mac and mplayer installed)
 
 1. After the deployment is done you can view the output with: `ssh <DEVICE-IP> cat /tmp/results.mjpeg | mplayer - -demuxer lavf -lavfdopts format=mjpeg:probesize=32`
-
-1. In the console subscribe to the topic `face_recognition/#`, it will show you everything going on with the device.
-
-1. Post a message to the `face_recognition/match/DEVICE_NAME` with content `{"OLD_NAME": "NEW_NAME"}`.
 
 **There is currently an issue with this function that makes it freeze for around 30 seconds the first time it sees a face, however this only happens once.**
 

@@ -4,11 +4,17 @@ Now we have a very basic face detection and recognition model running on the dev
 
 ![Architecture][architecture]
 
-[architecture]: ./static/architecture.png "Architecture"
+[architecture]: ./images/architecture.png "Architecture"
 
 ## Step-by-step
 
-- You can reuse the same lambda as in the first section, or create a new one (with the same alias latest). If you choose to create a new one you must add it to you Greengrass group with 'python3 create-greengrass-config --function <YOUR_FUNCTION>.
+- `cd 3-hybrid-face-recognition`
+
+- run `make`
+
+## What it does
+
+- You can reuse the same lambda as in the first section, or create a new one (with the same alias latest). If you choose to create a new one you must add it to you Greengrass group with 'python3 create-greengrass-config --function <YOUR_FUNCTION>. And remember that you can't have 2 lambda running a the same time because of the camera.
 
 - Create another Lambda function which will be using Rekognition to resolve the name of the faces it receive, only create it in the cloud this time.
 
@@ -17,7 +23,7 @@ Now we have a very basic face detection and recognition model running on the dev
 - In Amazon Rekognition create a pool of face that you need to identify.
 
 - Edit the code to crop the Faces which have not been identified yet, and send them to recognition for identification.
-    1. Send the message to a topic. 'jetson/new_faces'
+    1. Send the message to a topic. 'face_recognition/new'
     2. Lambda subscribe to the topic.
     3. When the lambda receive a new face.
         - Save it in S3,

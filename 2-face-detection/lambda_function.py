@@ -14,8 +14,8 @@ from file_output import FileOutput
 from face_datastore import FaceDatastore
 from publish import Publisher
 
-IOT_TOPIC = 'jetson/inference'
-IOT_TOPIC_ADMIN = 'jetson/admin'
+IOT_TOPIC = 'face_recognition/inference'
+IOT_TOPIC_ADMIN = 'face_recognition/admin'
 
 def get_parameter(name, default):
     if name in os.environ and os.environ[name] != "":
