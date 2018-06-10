@@ -1,11 +1,8 @@
 import os
-import platform
 import face_recognition
-import json
 import cv2
 import base64
 from threading import Timer
-import uuid
 import time
 import imutils
 

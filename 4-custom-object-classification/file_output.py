@@ -1,6 +1,6 @@
 from threading import Thread
 import os
-import cv2
+import cv2 # pylint: disable=import-error
 
 class FileOutput(Thread):
     '''
