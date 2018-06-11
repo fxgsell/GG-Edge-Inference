@@ -39,10 +39,9 @@ def main_loop():
     try:
         while 42 :
             frame = VS.read()
-            rgb_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)[:, :, ::-1]
-
+            frame = cv2.resize(frame, (model.data_shape, model.data_shape))
             try:
-                category = model.do(rgb_frame)
+                category = model.do(frame)
             except Exception as err:
                 PUB.exception(str(err))
                 raise err
