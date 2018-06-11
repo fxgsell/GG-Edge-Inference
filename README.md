@@ -41,7 +41,7 @@ This workshop is composed of the following Labs:
 1. [Lab 1: Get started with the configuration of AWS Greengrass and your device.](./1-greengrass-configuration/)
 1. [Lab 2: Run a first model.](./2-face-detection/)
 1. [Lab 3: Add capability to your Edge model with the Cloud.](./3-hybrid-face-recognition/)
-1. [Lab 4: Build your own object detection model in SageMaker.](./4-custom-object-detection/)
+1. [Lab 4: Build your own object classification model in SageMaker.](./4-custom-object-classification/)
 1. (Optional) Advanced capabilities of the Jetson with Deepstream.
 
 ## Tips
