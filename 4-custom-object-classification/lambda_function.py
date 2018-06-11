@@ -5,7 +5,7 @@ from threading import Timer
 from camera import VideoStream
 from file_output import FileOutput
 from publish import Publisher
-from inference import infer
+from inference import Infer
 
 IOT_TOPIC = 'custom_object_detection/inference'
 IOT_TOPIC_ADMIN = 'custom_object_detection/admin'
@@ -34,6 +34,7 @@ PUB.info('Camera is ' + VS.device)
 OUTPUT = FileOutput('/tmp/results.mjpeg', VS.read(), PUB)
 OUTPUT.start()
 
+model = Infer()
 def main_loop():
     try:
         while 42 :
@@ -41,7 +42,7 @@ def main_loop():
             rgb_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)[:, :, ::-1]
 
             try:
-                category = infer(rgb_frame)
+                category = model.do(rgb_frame)
             except Exception as err:
                 PUB.exception(str(err))
                 raise err
