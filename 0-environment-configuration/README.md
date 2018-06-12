@@ -75,4 +75,4 @@ Your Cloud9 development environment is a running EC2 instance in your region and
     git clone https://github.com/zukoo/GG-Edge-Inference
     ```
 
-### Congratulations! We are now ready to begin Lab 1 activities on your Cloud9 environment
+### Congratulations! We are now ready to begin [Lab 1 - Greengrass Configuration](https://github.com/zukoo/GG-Edge-Inference/tree/master/1-greengrass-configuration) activities on your Cloud9 environment
