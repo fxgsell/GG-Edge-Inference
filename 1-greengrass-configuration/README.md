@@ -21,7 +21,11 @@ We will first create an AWS Lambda function that will be run later on the device
 
 1. Create a new AWS Lambda, this function will be used for inference:
     - Choose `ml-edge-workshop-lab-1` as the function name
-    - Choose `Python 2.7` as the runtime,
+    - Choose `Python 2.7` as the runtime
+    - Choose `Create a custom role` from the role drop-down
+    ![Lambda Create New](./images/lambda_create_role.png)
+    - This will launch a screen for creating a new IAM role through which permissions to other AWS resources will be provided to the Lambda function -- we will keep the defaults and click the **Allow** button to continue: ![Lambda Create New](./images/lambda_create_role_1.png)
+    - Finally, you should see the screen with the settings shown below -- verify the information, then finish Lambda creation by clicking the **Create Function** button ![Lambda Create New](./images/lambda_create_function.png)
 1. After creating your new Lambda function, we need to assign an alias pointing to `$LATEST`
     - First, select your new Lambda function and click the **Action** button, and select **Create Alias** from the drop-down menu as shown:
         ![Lambda Create Alias](./images/lambda_create_alias.png)
