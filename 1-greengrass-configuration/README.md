@@ -1,8 +1,9 @@
-# Introduction
+# Lab 1: Greengrass Configuration
 
 This lab will guide the user through
 
-- TODO
+- creating an Amazon S3 bucket for hosting our models
+- creating a stub
 
 ## Setup your Amazon S3 bucket
 
@@ -30,9 +31,7 @@ We will first create an AWS Lambda function that will be run later on the device
         ![Lambda Create Alias](./images/lambda_create_alias_2.png)
     - You can now continue to the next section
 
-### Congratulations! We are now ready to begin Lab 1 activities in your local environment
-
-## Lab 1 Activities
+## Create Greengrass Group
 
 1. From within the cloned directory, we will now switch to the directory for Lab 1 content and perform some necessary setup of our environment before we begin:
     ```bash
@@ -88,7 +87,7 @@ Now that the certificates are properly installed, we will attempt to confirm via
 1. From the AWS console, select IoT Core. We should see the AWS IoT Monitoring console as shown below, with a dot on the graph indicating a successful connection to our device.
     ![AWS IoT Core Monitor Success](./images/iot_monitor_success.png)
 
-### You're now set to start doing some ML@Edge! Please proceed to [Lab 2 - Face Detection](https://github.com/zukoo/GG-Edge-Inference/tree/master/2-face-detection)
+### You're now ready to start deploying ML models to your device! Please proceed to [Lab 2 - Face Detection](https://github.com/zukoo/GG-Edge-Inference/tree/master/2-face-detection)
 
 ## Addendum: create-greengrass-config.py Usage
 
