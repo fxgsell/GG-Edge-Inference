@@ -88,7 +88,7 @@ Now that the certificates are properly installed, we will attempt to confirm via
 1. From the AWS console, select IoT Core. We should see the AWS IoT Monitoring console as shown below, with a dot on the graph indicating a successful connection to our device.
     ![AWS IoT Core Monitor Success](./images/iot_monitor_success.png)
 
-### You're now set to start doing some ML@Edge! Proceed to Lab 2
+### You're now set to start doing some ML@Edge! Please proceed to [Lab 2 - Face Detection](https://github.com/zukoo/GG-Edge-Inference/tree/master/2-face-detection)
 
 ## Addendum: create-greengrass-config.py Usage
 
