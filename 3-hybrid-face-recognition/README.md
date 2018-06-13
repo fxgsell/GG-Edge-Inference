@@ -43,7 +43,7 @@ Next, we will perform a `make` to build and deploy our Lambda function to our de
 make
 ```
 
-And remember that you cannot have these two Lambda function running on the device at the same time *because the two functions cannot share a single camera feed simultaneously*.
+And remember that you cannot have these two Lambda function running on the device at the same time *because the two functions cannot share a single camera feed simultaneously* so you should reuse the same function name to update the code in place.
 
 The `make` file executes an AWS Cloudformation script that does the following:
 
@@ -63,8 +63,3 @@ The `make` file executes an AWS Cloudformation script that does the following:
 - When you get a shadow update edit the key of the known face.
 
 After that you should see the name of the person that you configured in recognition instead of "UserXYZ".
-
-## Tips
-
-- Crop a photo in Python with cv2 : `crop = frame[y:y+h, x:x+w]`
-- Create a face pool in Rekognition:
