@@ -39,7 +39,7 @@ Your Cloud9 development environment is a running EC2 instance in your region and
     ![Cloud9 EC2 Instance - Create IAM Role](./images/iam_create_role_2.png)
 1. Next, enter a role name for this role that will help identify it for use and later deletion (`ml-edge-workshop-cloud9-ec2` in our example), and click **Create Role** button.
     ![Cloud9 EC2 Instance - Create IAM Role](./images/iam_create_role_3.png)
-1. Now that we have created a role for our Cloud9 EC2 instance, we will assign it within the earlier screen. You should be able to click the Refresh (circular arrow) button and then filter for the new role you created, then click **Apply** button:
+1. We have just created a role for our Cloud9 EC2 instance, and we will now assign it to that instance. Return to the EC2 console, and you should be able to click the Refresh (circular arrow) button and then filter for the new role you created, then click **Apply** button:
     ![Cloud9 EC2 Instance - Assign Role](./images/ec2_assign_role.png)
 1. You will see the action of changing the EC2 instance IAM role occurring, which may take a several moments to complete.
     ![Cloud9 EC2 Instance - Assign Role Pending](./images/ec2_assign_role_processing.png)
