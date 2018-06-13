@@ -26,6 +26,7 @@ We will first create an AWS Lambda function that will be run later on the device
     ![Lambda Create New](./images/lambda_create_role.png)
     - This will launch a screen for creating a new IAM role through which permissions to other AWS resources will be provided to the Lambda function -- we will keep the defaults and click the **Allow** button to continue: ![Lambda Create New](./images/lambda_create_role_1.png)
     - Finally, you should see the screen with the settings shown below -- verify the information, then finish Lambda creation by clicking the **Create Function** button ![Lambda Create New](./images/lambda_create_function.png)
+
 1. After creating your new Lambda function, we need to assign an alias pointing to `$LATEST`
     - First, select your new Lambda function and click the **Action** button, and select **Create Alias** from the drop-down menu as shown:
         ![Lambda Create Alias](./images/lambda_create_alias.png)
@@ -67,7 +68,7 @@ We will now install the AWS IoT certificates that we just created onto your loca
     ![Jetson TX2 buttons](./images/jetson_buttons.png)
 1. Identify the device IP and connect to that IP on port 80/http with a web browser.
     ![Jetson TX2 web config](./images/jetson_web_config.png)
-1. In **Greengrass Certificates**, click **Choose File**, and select the `certificates.tar.gz` you had generated earlier, then click the **Finished**.
+1. In **Greengrass Certificates**, click **Choose File**, and select the `certificates.tar.gz` you had generated earlier, then click the **Submit** below the certificate selection button, then finally click the **Finished**.
 1. The device will display as follows, indicating device restart which is now occuring:
     ![Jetson TX2 web config](./images/jetson_restart.png)
 
@@ -77,10 +78,10 @@ We will now install the AWS IoT certificates that we just created onto your loca
     ![Checking GG deployment](./images/gg_first_deploy.png)
 1. Click the **Actions** button, and select **Deploy** as shown below:
     ![Fixing GG deployment](./images/gg_first_deploy_1.png)
-1. Next, we will choose to grant permissions to Greengrass by clicking **Grant permission** (shown below):
-    ![Granting GG permission](./images/gg_first_deploy_2.png)
 1. Next, we will choose how Greengrass detects your device connection information. Click **Automatic detection** (shown below):
     ![Granting GG permission](./images/gg_first_deploy_3.png)
+1. Next, we will choose to grant permissions to Greengrass by clicking **Grant permission** (shown below):
+    ![Granting GG permission](./images/gg_first_deploy_2.png)
 1. A new deployment should have been created, the status should be "In Progress". We will need to wait a bit for the deployment to be successful.
     ![Checking GG deployment](./images/gg_first_deploy_4.png)
 
