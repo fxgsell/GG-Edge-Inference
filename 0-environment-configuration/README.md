@@ -1,10 +1,8 @@
 # Environment Configuration
 
-## Creating your Cloud9 Environment (optional)
+To perform this workshop and provide a consistent experience for all users, we recommend the use of Amazon Cloud9, which is a web-based IDE that provides a Linux shell in which we will run the labs. We will use Cloud9 to configure the Greengrass settings for the target device and execute different AWS commands.
 
-Amazon Cloud9 is a web-based IDE -- we will use it to configure the Greengrass settings for the target device and execute different AWS commands.
-
-> **Alternatively, you can simply clone this repository and run from your own computer (assuming that you have Python3 and boto3 correctly installed and user permissions are sufficient to execute on your AWS account). If so, please go directly to [Clone Workshop Content - Local](#clone-workshop-content---local)**
+## Start Cloud9 Instance
 
 1. From the AWS console, go to the [Amazon Cloud9](https://console.aws.amazon.com/cloud9/home?region=us-east-1) console and select the **Create Environment** button to fill in the following information:
     1. Step 1: Name environment
@@ -21,7 +19,7 @@ Amazon Cloud9 is a web-based IDE -- we will use it to configure the Greengrass s
 1. Select the AWS Settings tab on the left, and then disable the **AWS managed temporary credentials** option (which is on by default) ![Cloud9 AWS Settings](./images/cloud9_disable_aws_credentials.png)
 1. Close the Preferences tab at the top, returning to the Welcome tab.
 
-## Setting AWS IAM role - Cloud9
+## Setting Cloud9 IAM role
 
 Your Cloud9 development environment is a running EC2 instance in your region and default VPC. We will now make a change to that instance so that we will have the superpowers necessary to perform administrative tasks in your AWS environment.
 
@@ -46,9 +44,9 @@ Your Cloud9 development environment is a running EC2 instance in your region and
 1. Finally, you should see Success as shown below:
     ![Cloud9 EC2 Instance - Assign Role Pending](./images/ec2_assign_role_success.png)
 
-### Congratulations, you have successfully configured Cloud9 for use in administering this workshop! Next, we will clone the repository with the workshop and labs
+### Next, we will clone the repository with the workshop and labs
 
-## Clone Workshop Content - Cloud9
+## Clone Workshop Content
 
 1. From the Getting Started panel on the right of the IDE, select **Clone Git Repository** and provide the URL of this repository (ie. https://github.com/zukoo/GG-Edge-Inference):
     ```bash
@@ -66,13 +64,5 @@ Your Cloud9 development environment is a running EC2 instance in your region and
     ```
     Your responses should look like the following, with your chosen region for the third prompt:
     ![Cloud9 Set AWS Region](./images/cloud9_region.png)
-
-## Clone Workshop Content - Local
-
-1. Clone the workshop content to a local directory:
-    ```bash
-    cd <your preferred scratch directory location>
-    git clone https://github.com/zukoo/GG-Edge-Inference
-    ```
 
 ### Congratulations! We are now ready to begin [Lab 1 - Greengrass Configuration](https://github.com/zukoo/GG-Edge-Inference/tree/master/1-greengrass-configuration) activities on your Cloud9 environment
