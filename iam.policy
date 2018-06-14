@@ -1,0 +1,53 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": "arn:aws:s3:::*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": "arn:aws:s3:::ml-edge-workshop-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:CreateKeysAndCertificate",
+                "iot:CreateThing",
+                "iot:AttachThingPrincipal",
+                "iot:CreatePolicy",
+                "iot:AttachPrincipalPolicy"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "greengrass:Create*",
+                "greengrass:AssociateRoleToGroup"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:AttachRolePolicy"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreatePolicy"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
