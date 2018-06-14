@@ -99,7 +99,7 @@ def generate_config_package(state):
 
     shutil.make_archive('certificates', 'gztar', './artifacts/', '.')
     shutil.rmtree( './artifacts')
-    print('Configuration and certificates generated: certificates.zip')
+    print('Configuration and certificates generated: certificates.tar.gz')
 
 def create_function(): #TODO
     return 
