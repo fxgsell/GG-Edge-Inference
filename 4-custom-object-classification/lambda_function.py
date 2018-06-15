@@ -1,5 +1,6 @@
 import os
 import cv2
+import time
 from threading import Timer
 
 from camera import VideoStream
@@ -37,18 +38,29 @@ OUTPUT.start()
 model = Infer()
 def main_loop():
     try:
+        last_update = time.time()
+        results = []
+        fps = 0
         while 42 :
             frame = VS.read()
             frame = cv2.resize(frame, (model.data_shape, model.data_shape))
             try:
                 category = model.do(frame)
+                results.append(category)
+                font = cv2.FONT_HERSHEY_DUPLEX
+                title = str(fps) + " - " + category
+                cv2.putText(frame, title, (6, 24), font, 0.5, (255, 255, 255), 1)
+
             except Exception as err:
                 PUB.exception(str(err))
                 raise err
-
-            font = cv2.FONT_HERSHEY_DUPLEX
-            cv2.putText(frame, category, (6, 6), font, 1.0, (255, 255, 255), 1)
-            PUB.events([category])
+            
+            now = time.time()
+            if now - last_update >= 1:
+                last_update = time.time()
+                PUB.events(results)
+                results = []
+                fps = len(results)
             OUTPUT.update(frame)
 
     except Exception as err:
