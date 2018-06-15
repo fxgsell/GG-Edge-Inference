@@ -26,5 +26,5 @@ class Infer:
         self.mod.forward(self.Batch([mx.nd.array(frame)]))
         dets = self.mod.get_outputs()[0].asnumpy()[0]
         print(dets) #debug
-        category = 0 # TODO: Replace By Coret value in dets
+        category = np.argmax(dets)
         return self.categories[category]
