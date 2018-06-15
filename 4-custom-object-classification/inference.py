@@ -14,7 +14,7 @@ class Infer:
 
         self.data_shape = 227
         sym, args, auxs = mx.model.load_checkpoint(path, 10)
-        self.mod = mx.mod.Module(sym, label_names=None, context=mx.cpu())
+        self.mod = mx.mod.Module(sym, label_names=None, context=mx.gpu())
         self.mod.bind(data_shapes=[('data', (1, 3, 227, 227))], label_shapes=self.mod._label_shapes)
         self.mod.set_params(args, auxs, allow_missing=True)
 
