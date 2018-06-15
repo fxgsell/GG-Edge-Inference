@@ -59,8 +59,8 @@ def main_loop():
             if now - last_update >= 1:
                 last_update = time.time()
                 PUB.events(results)
-                results = []
                 fps = len(results)
+                results = []
             OUTPUT.update(frame)
 
     except Exception as err:
