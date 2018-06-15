@@ -9,14 +9,14 @@ from collections import namedtuple
 class Infer:
     Batch = namedtuple('Batch', ['data'])
 
-    def __init__(self, path="./model/"): ## TODO: Update the path
+    def __init__(self, path="/ml/boxes/image-classification"): ## TODO: Update the path
         self.categories = ['bad', 'good', 'none']
 
-        self.data_shape = 512
-        sym, args, auxs = mx.model.load_checkpoint(path, 0)
+        self.data_shape = 227
+        sym, args, auxs = mx.model.load_checkpoint(path, 10)
         self.mod = mx.mod.Module(sym, label_names=None, context=mx.cpu())
-        self.mod.bind(data_shapes=[('data', (1, 3, self.data_shape, self.data_shape))])
-        self.mod.set_params(args, auxs)
+        self.mod.bind(data_shapes=[('data', (1, 3, 227, 227))], label_shapes=self.mod._label_shapes)
+        self.mod.set_params(args, auxs, allow_missing=True)
 
     def do(self, frame):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
