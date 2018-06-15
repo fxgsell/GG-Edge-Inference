@@ -27,11 +27,13 @@ We will first create an AWS Lambda function that will be run later on the device
     - This will launch a screen for creating a new IAM role through which permissions to other AWS resources will be provided to the Lambda function -- we will keep the defaults and click the **Allow** button to continue: ![Lambda Create New](./images/lambda_create_role_1.png)
     - Finally, you should see the screen with the settings shown below -- verify the information, then finish Lambda creation by clicking the **Create Function** button ![Lambda Create New](./images/lambda_create_function.png)
 
-1. After creating your new Lambda function, we need to assign an alias pointing to `$LATEST`
-    - First, select your new Lambda function and click the **Action** button, and select **Create Alias** from the drop-down menu as shown:
+1. After creating your new Lambda function, we need to publish a new version then assign an alias pointing to that version
+    - First, select your new Lambda function and click the **Action** button, and select **Publish new version** from the drop-down menu as shown:
+        ![Lambda Publish](./images/lambda_publish.png)
+    - Now, click the **Action** button again, and select **Create Alias** from the drop-down menu as shown:
         ![Lambda Create Alias](./images/lambda_create_alias.png)
-    - Next, fill in the **Name** field with the word **latest** and select the **Version** of **\$LATEST** as shown here, then click the **Create** button
-        ![Lambda Create Alias](./images/lambda_create_alias_1.png)
+    - Next, fill in the **Name** field with the word **latest** and select the latest **Version** which would be **1** as shown here, then click the **Create** button
+        ![Lambda Create Alias](./images/lambda_alias.png)
     - If successful, you should see the following:
         ![Lambda Create Alias](./images/lambda_create_alias_2.png)
     - You can now continue to the next section
