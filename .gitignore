@@ -1,6 +1,10 @@
 # Packaged lambda function
 package.zip
 .vscode
+GROUP_DEPLOYMENT
+GROUP_ID
+GROUP_VERSION
+STATUS
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
