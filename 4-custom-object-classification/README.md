@@ -13,7 +13,3 @@
 1. Run `make` and wait for it (the device must download the model so it might be slower than in the previous sections).
 
 1. Subscribe to the topics `custom_object_detection/admin` and `custom_object_detection/inference` or to `custom_object_detection/#` to see the inference.
-
-## Extra Work
-
-- Use SageMaker's object detection algorithm to implement real time boxing of the objects.
